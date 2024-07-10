@@ -1,0 +1,22 @@
+[
+    {
+        "CategoryID": 1,
+        "Name": "Air"
+      },
+      {
+        "CategoryID": 2,
+        "Name": "Water"
+      },  
+      {
+        "CategoryID": 3,
+        "Name": "Land"
+      },
+      {
+        "CategoryID":4,
+        "Name": "Mountain"
+      },
+      {
+        "CategoryID":5,
+        "Name": "Snow"
+      }
+]

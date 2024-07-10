@@ -1,0 +1,93 @@
+[
+    {
+      "ActivityID": 1,
+      "Name": "Wingsuit Flying",
+      "Description": "Glide through the air in a specialized suit.", 
+      "CategoryID": 1,
+      "Season": "All year"
+    },
+    {
+      "ActivityID": 2,
+      "Name": "Wakeboarding",
+      "Description": "Riding a board while being towed behind a motorboat",
+      "CategoryID": 2,
+      "Season": "Summer"
+    },
+    {
+      "ActivityID": 3,
+      "Name": "Trial Biking",
+      "Description": "Off-road biking over challenging terrain",
+      "CategoryID": 3,
+      "Season": "All year"
+    },
+    {
+      "ActivityID": 4,
+      "Name": "Surfing",
+      "Description": "Riding waves on a surfboard",
+      "CategoryID": 2,
+      "Season": "Summer"
+    },
+    {
+      "ActivityID": 5,
+      "Name": "Snowboarding",
+      "Description": "Descending a snow-covered slope while standing on a single board",
+      "CategoryID": 5,
+      "Season": "Winter"
+    },
+    {
+      "ActivityID": 6,
+      "Name": "Skydiving",
+      "Description": "Jumping from an aircraft with a parachute",
+      "CategoryID": 1,
+      "Season": "All year"
+    },
+    {
+      "ActivityID": 7,
+      "Name": "Paragliding",
+      "Description": "Gliding through the air using a parachute-like canopy",
+      "CategoryID": 1,
+      "Season": "All year"
+    },
+    {
+      "ActivityID": 8,
+      "Name": "MTB",
+      "Description": "Riding bicycles off-road, tackling trails and rough terrain",
+      "CategoryID": 4,
+      "Season": "All year"
+    },
+    {
+      "ActivityID": 9,
+      "Name": "Drifting",
+      "Description": "driving technique where the driver intentionally oversteers",
+      "CategoryID": 3,
+      "Season": "All year"
+    },
+    {
+      "ActivityID": 10,
+      "Name": "Climbing",
+      "Description": "Ascending rock faces or indoor climbing walls.",
+      "CategoryID": 4,
+      "Season": "All year"
+    },
+    {
+      "ActivityID": 11,
+      "Name": "Canoeing",
+      "Description": "Propelling a canoe through water using paddles",
+      "CategoryID": 2,
+      "Season": "Summer"
+    },
+    {
+      "ActivityID": 12,
+      "Name": "High Diving",
+      "Description": "Diving from significant heights into water",
+      "CategoryID": 2,
+      "Season": "Summer"
+    },
+    {
+      "ActivityID": 13,
+      "Name": "Ice Climbing",
+      "Description": "Climbing ice formations such as frozen waterfalls or ice-covered rock",
+      "CategoryID": 5,
+      "Season": "Winter"
+    }
+]
