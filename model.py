@@ -15,8 +15,10 @@ class User(db.Model):
 
     # Define relationship to EventParticipant: each user can have multiple participations
     event_participants = db.relationship("EventParticipant", back_populates="user")
+    
     # Define relation to BucketList: each user can have multiple bucketlist items
     bucket_list_items = db.relationship("BucketList", back_populates="user")
+    
 
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
@@ -30,7 +32,8 @@ class Category(db.Model):
      category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
      description = db.Column(db.String) 
 
-     activities = db.relationship("Activity", back_populates="category") 
+     activities = db.relationship("Activity", back_populates="category")
+     
 
      def __repr__(self):
         return f"<Category category_id={self.category_id} description={self.description}>"
@@ -47,7 +50,7 @@ class Activity(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id')) 
     season = db.Column(db.String)
 
-    categories = db.relationship("Category", back_populates="activity") 
+    category = db.relationship("Category", back_populates="activities") 
     events = db.relationship("Event", back_populates="activity") 
     bucket_list = db.relationship("BucketList", back_populates="activity") 
     expert_advice = db.relationship("ExpertAdvice", back_populates="activity") 
@@ -71,8 +74,8 @@ class Event(db.Model):
     skill_level_requirement = db.Column(db.String) 
     cost = db.Column(db.Float)
 
-    activity = db.relationship('Activity', backref='event')
-    event_participants = db.relationship('EventParticipants', backref='event')
+    activity = db.relationship('Activity', back_populates='events')
+    event_participants = db.relationship('EventParticipant', back_populates='event')
 
     def __repr__(self):
             return f"<Event event_id={self.event_id} title={self.title}>"
@@ -89,8 +92,8 @@ class EventParticipant(db.Model):
     status = db.Column(db.String)
     dates_created = db.Column(db.DateTime)
 
-    event = db.relationship('Event', backref='participant')
-    user = db.relationship('User', backref='participant')
+    event = db.relationship('Event', back_populates='event_participants')
+    user = db.relationship("User", back_populates="event_participants")
 
     def __repr__(self):
          return f"<EventParticipant participation_id={self.participation_id}>"
@@ -106,8 +109,8 @@ class BucketList(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     status = db.Column(db.String)
 
-    user = db.relationship('User', backref = 'bucket_list')
-    activity = db.relationship('Activity', backref = 'bucket_list')
+    user = db.relationship("User", back_populates='bucket_list_items')
+    activity = db.relationship('Activity', back_populates = 'bucket_list')
 
     def __repr__(self):
          return f"<BucketList bucket_list_id={self.bucket_list_id}>"
@@ -124,7 +127,7 @@ class ExpertAdvice(db.Model):
     content = db.Column(db.String, nullable=False)
     expert_bio = db.Column(db.String)
 
-    activity = db.relationship('Activity', backref = 'expert_advice')
+    activity = db.relationship('Activity', back_populates = 'expert_advice')
 
     def __repr__(self):
          return f"<ExpertAdvice advice_id={self.advice_id} title={self.title}>"
