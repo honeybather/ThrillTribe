@@ -1,0 +1,95 @@
+[
+    {
+      "ActivityID": 1,
+      "name": "Wingsuit Flying",
+      "overview": "Glide through the air in a specialized suit.", 
+      "categoryID": 1,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 2,
+      "name": "Wakeboarding",
+      "overview": "Riding a board while being towed behind a motorboat",
+      "categoryID": 2,
+      "season": "Summer"
+      
+    },
+    {
+      "ActivityID": 3,
+      "name": "Trial Biking",
+      "overview": "Off-road biking over challenging terrain",
+      "categoryID": 3,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 4,
+      "name": "Surfing",
+      "overview": "Riding waves on a surfboard",
+      "categoryID": 2,
+      "season": "Summer"
+    },
+    {
+      "ActivityID": 5,
+      "name": "Snowboarding",
+      "overview": "Descending a snow-covered slope while standing on a single board",
+      "categoryID": 5,
+      "season": "Winter"
+    },
+    {
+      "ActivityID": 6,
+      "name": "Skydiving",
+      "overview": "Jumping from an aircraft with a parachute",
+      "categoryID": 1,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 7,
+      "name": "Paragliding",
+      "overview": "Gliding through the air using a parachute-like canopy",
+      "categoryID": 1,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 8,
+      "name": "MTB",
+      "overview": "Riding bicycles off-road, tackling trails and rough terrain",
+      "categoryID": 4,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 9,
+      "name": "Drifting",
+      "overview": "driving technique where the driver intentionally oversteers",
+      "categoryID": 3,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 10,
+      "name": "Climbing",
+      "overview": "Ascending rock faces or indoor climbing walls.",
+      "categoryID": 4,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 11,
+      "name": "Canoeing",
+      "overview": "Propelling a canoe through water using paddles",
+      "categoryID": 2,
+      "season": "Summer"
+    },
+    {
+      "ActivityID": 12,
+      "name": "High Diving",
+      "overview": "Diving from significant heights into water",
+      "categoryID": 2,
+      "season": "Summer"
+    },
+    {
+      "ActivityID": 13,
+      "name": "Ice Climbing",
+      "overview": "Climbing ice formations such as frozen waterfalls or ice-covered rock",
+      "categoryID": 5,
+      "season": "Winter"
+    }
+]
+

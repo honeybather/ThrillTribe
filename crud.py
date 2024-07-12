@@ -1,6 +1,8 @@
 """CRUD operations"""
 
 from model import db, User, Category, Activity, Event, BucketList, ExpertAdvice, connect_to_db
+from flask import render_template
+import crud
 
 def create_user(email, password):
     """Create and return a new user."""
@@ -12,14 +14,14 @@ def create_user(email, password):
 #user1 = User(email='hello@world.com')
 #user2 = User(password='test')
 
-def create_category(desctiption):
+def create_category(description):
     """Create and return a category"""
 
-    category = Category(desctiption=desctiption)
+    category = Category(description=description)
 
     return category 
 
-#new_category = create_category(desctiption='Outdoor Adventures')
+#new_category = create_category(description='Outdoor Adventures')
 #new_category = create_category('Outdoor Adventures')
 
 def create_activity(name, overview, category_id, season):
@@ -34,6 +36,29 @@ def create_activity(name, overview, category_id, season):
 #new_activity = create_activity(name='Surfing', overview='Ride the waves', 
 # category_id=new_category.category_id, season='Summer')
 
+def get_activities():
+    """Return all activities"""
+    return Activity.query.all()
+
+def get_activity_by_id(activity_id):
+    """Return activity id"""
+    return  Activity.query.get(activity_id)
+
+def get_users():
+    """Return all users"""
+    return User.query.all()
+
+def get_user_by_id(user_id):
+    """Return user id"""
+    return User.query.get(user_id)
+
+def get_user_by_email(email):
+    """Return a user by email"""
+    # Look for a user in the User table whose email matches the given email.
+    # filter adds this condition to the query.
+    # User.email == email checks if the email field matches the given email.
+    # .first() gets the first matching user or returns None if no match is found.
+    return User.query.filter(User.email == email).first()
 
 def create_event(activity_id, title, description, date_time, location, skill_level_requirement, cost):
     """Create and return an event."""
@@ -46,8 +71,9 @@ def create_event(activity_id, title, description, date_time, location, skill_lev
                   cost=cost)
     return event
 
+# from datetime import datetime
 # new_event = create_event(activity_id=new_activity.activity_id, title='Surfing in Hawaï', 
-# description='Let's enjoy surfing the beautiful beaches of Hawaï.',
+# description='Lets enjoy surfing the beautiful beaches of Hawaï.',
 # date_time=datetime(2024, 7, 15, 10, 0), location='Malibu Beach', skill_level_requirement='Intermediate', 
 # cost=50.0)
 
@@ -71,7 +97,7 @@ def create_expert_advice(activity_id, title, content, expert_bio):
 
 # new_expert_advice = create_expert_advice(activity_id=new_activity.activity_id,
 # title='Surfing Tips', content='Learn how to catch the perfect wave.',
-# expert_bio='Drake, Surfing Enthusiast'
+# expert_bio='Drake, Surfing Enthusiast')
 
 if __name__ == '__main__':
     from server import app

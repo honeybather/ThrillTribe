@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ activity.name }} - Details{% endblock %}
+
+{% block body %}
+<h1>{{ activity.name }}</h1>
+
+<p>
+  {{ activity.overview }}
+</p>
+
+{% endblock %}

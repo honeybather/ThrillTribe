@@ -1,22 +1,22 @@
 [
     {
         "CategoryID": 1,
-        "Name": "Air"
+        "description": "Air"
       },
       {
         "CategoryID": 2,
-        "Name": "Water"
+        "description": "Water"
       },  
       {
         "CategoryID": 3,
-        "Name": "Land"
+        "description": "Land"
       },
       {
         "CategoryID":4,
-        "Name": "Mountain"
+        "description": "Mountain"
       },
       {
         "CategoryID":5,
-        "Name": "Snow"
+        "description": "Snow"
       }
 ]
