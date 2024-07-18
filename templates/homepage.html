@@ -8,9 +8,12 @@
   <ul>
     <li><a href="/activities">View all activities</a></li>
     <li><a href="/users">View my profile</a></li>
+    {% if session %}
+      <li><a href="/create_event">Create Event</a></li>
+    {% endif %}
 
 <h2>Create an Account</h2>
-<form action="/uers" method="POST">
+<form action="/users" method="POST">
     <p>
       Email <input type="text" name="email">
     </p>
@@ -37,4 +40,3 @@
     </p>
   </form>
 {% endblock %}
-

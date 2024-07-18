@@ -1,0 +1,22 @@
+See all events route 
+
+displays all events - this query occurs in server route
+(just like we queried all activities for the create_event route and 
+passed them in.) 
+
+give filter options. filter by activity or date 
+link a JS page to html
+
+js page will listen for the 'click/submit' on the filter options. 
+identify what they want to filter by. if they selected an activity, what is the activity
+ajax request (to a new route - which will only return info from the db)
+pass into the ajax request, information on what to filter by
+
+goes to the backend,
+the backend extracts the filter request, and calls on a query to the database
+the route returns the database query response.a
+
+when this get back to the ajax call in the JS page,
+
+if you are displaying all events, delete that conent,
+fill in data received as ajax response so user can see into
