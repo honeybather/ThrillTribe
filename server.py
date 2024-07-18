@@ -18,7 +18,7 @@ app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def homepage():
-    """View our first ever homepage!"""
+    """View my first ever homepage!"""
     return render_template('homepage.html')
 
 @app.route("/activities")
@@ -88,11 +88,6 @@ def login():
     flash('Logged in')
     return redirect("/")
 
-@app.route("/join_event/<event_id>", methods=["POST"])
-def join_event(event_id):
-    """Join events"""
-# finish this
-
 @app.route("/create_event")
 def show_event_form():
     """Show create event form"""
@@ -128,11 +123,14 @@ def all_events():
     events = crud.get_events() # fetch all events from the database
     return render_template("all_events.html", activities=activities, events=events)
 
+@app.route("/join_event/<event_id>", methods=["POST"])
+def join_event(event_id):
+    """Join events"""
+# finish this
+
 @app.route("/filter_events")
 def filter_events():
     """Display Filtered Events"""
-
-# do it
 
 
 if __name__ == "__main__":

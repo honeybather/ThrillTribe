@@ -7,27 +7,37 @@
 
 <form action="/create_event" method="POST">
 
- <label for="activities">Choose a Activity:</label>
+ <fieldset>
+  <legend>Event:</legend>
 
- <select name="activities" id="activity_id">
+  <label for="activities">Choose a Activity:</label>
+  <select name="activities" id="activity_id">
     {% for activity in activities %}
         <option value="{{activity.activity_id}}">{{activity.name}}</option>
     {% endfor %}
  </select><br><br>
- <label for="title">Title:</label>
-    <input type="text" id="title" name ="title"><br><br>
-<label for="description">Description:</label>
-    <input type="text" id="description" name ="description"><br><br>
-<label for="location">Location:</label>
-    <input type="text" id="location" name ="location"><br><br>
-<label for="skill_level">Skill Level:</label>
-    <input type="text" id="skill_level" name ="skill_level"><br><br>
-<label for="cost">Cost:</label>
-    <input type="number" id="cost" name ="cost"><br><br>
-<label for="date">Date and Time</label>
-    <input name="date" type="datetime-local" id="date"><br><br>
 
-<button type="submit">Submit</button>
+  <label for="title">Title:</label>
+  <input type="text" id="title" name="title"><br><br>
+
+  <label for="description">Description:</label>
+  <input type="text" id="description" name="description"><br><br>
+
+  <label for="Location">Location:</label>
+  <input type="Location" id="Location" name="email"><br><br>
+
+  <label for="skill_level">Skill Level:</label>
+  <input type="text" id="skill_level" name ="skill_level"><br><br>
+
+  <label for="cost">Cost:</label>
+  <input type="number" id="cost" name ="cost"><br><br>
+
+  <label for="date">Date and Time</label>
+  <input name="date" type="datetime-local" id="date"><br><br>
+
+  <input type="submit" value="Submit">
+
+ </fieldset>
 </form>
 
 
