@@ -1,6 +1,6 @@
 """CRUD operations"""
 
-from model import db, User, Category, Activity, Event, BucketList, ExpertAdvice, connect_to_db
+from model import db, User, Category, Activity, Event, EventParticipant, BucketList, ExpertAdvice, connect_to_db
 from flask import render_template
 import crud
 
@@ -52,6 +52,30 @@ def get_user_by_id(user_id):
     """Return user id"""
     return User.query.get(user_id)
 
+def get_events_by_activity(activity_id):
+    """Return events filtered by activity ID."""
+   # return Event.query.().all()
+
+def get_events_by_date(date):
+    """Return events filtered by date."""
+   # return Event.query.().all()
+
+def get_events():
+    """Return all events."""
+    return Event.query.all()
+
+def get_event_by_id(event_id):
+    """Return a specific event by its ID."""
+    return Event.query.get(event_id)
+
+def get_event_by_activity(activity_id):
+    """Return events by activity ID."""
+   # return Event.query.().all()
+
+def get_event_by_date(date):
+    """Return events by date."""
+   # return Event.query.().all()
+
 def get_user_by_email(email):
     """Return a user by email"""
     # Look for a user in the User table whose email matches the given email.
@@ -77,12 +101,23 @@ def create_event(activity_id, title, description, date_time, location, skill_lev
 # date_time=datetime(2024, 7, 15, 10, 0), location='Malibu Beach', skill_level_requirement='Intermediate', 
 # cost=50.0)
 
+
+     # Check if the code is correct.
+def create_event_participation(participation_id, event_id, user_id, status, dates_created)
+    """"Create and return a new event participation record"""
+    new_participation = EventParticipant(participation_id=participation_id
+                                        event_id=event_id
+                                        user_id=user_id
+                                        status=status
+                                        dates_created=dates_created)
+    return new_participation                               
+
 def create_bucket_list(activity_id, user_id, status):
     """Create and return a bucket list item."""
     bucket_list_item = BucketList(activity_id=activity_id, 
                                   user_id=user_id, 
                                   status=status)
-    return bucket_list_item
+    return bucket_list_item 
 
 #new_bucket_list_item = create_bucket_list(activity_id=new_activity.activity_id,
 # user_id=new_user.user_id, status="Pending")

@@ -7,8 +7,6 @@ from jinja2 import StrictUndefined
 import crud # for interacting with the database
 from datetime import datetime
 
-
-
 app = Flask(__name__) # Create an instance of Flask with the name of the module
 app.app_context().push() # Push the application context to be able to use Flask extensions outside of request handlers
 
@@ -126,11 +124,48 @@ def all_events():
 @app.route("/join_event/<event_id>", methods=["POST"])
 def join_event(event_id):
     """Join events"""
-# finish this
+    # get the logged-in user's ID from the session
+    user_id = session.get('user_id')
+    if not user_id:
+        flash("Log in to join events")
+        return redirect("/")
 
-@app.route("/filter_events")
+    # get the event and user details from the database
+    event = crud.get_event_by_id(event_id)
+    user = crud.get_user_by_id(user_id)
+
+    if event and user:
+        # create a new event participation record in the databse 
+        crud.create_event_participation(user_id, event_id)
+        flash('Successfully joined the event!')
+    else:
+        flash('user or event not found')
+
+    return redirect('/')
+# create crud function for create_event_participation
+
+
+@app.route("/filter_events", methods=["GET"]) #retrieve data from the server
 def filter_events():
     """Display Filtered Events"""
+
+    # Get the 'activity_id' parameter from the URL query string
+    activity_id = request.args.get('activity_id')
+    # Get the 'date' parameter from the form data 
+    date = request.form.get('date') 
+
+    # If an activity ID is provided, filter events by that activity
+    if activity_id:
+        events = crud.get_event_by_activity(activity_id)
+    elif date:
+        events = crud.get_event_by_date(date)
+    # If neither is provided, retrieve all events
+    else:
+        events = crud.get_events()
+    
+    return render_template("all_events.html", events=events)
+#create crud functions
+
 
 
 if __name__ == "__main__":
