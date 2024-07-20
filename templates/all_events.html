@@ -3,14 +3,20 @@
 
 {% block body %}
   <h1>All Events</h1>
-
   <ul>
-    {% for events in events %}
-      <li>
-        <a href="/events/{{ events.event }}">
-          {{ event.name }}
-        </a>
-      </li>
+    {% for event in events %}
+     <li>
+      <h2>{{ event.title }}</h2>
+      <p>{{ event.description }}</p>
+      <p>Date: {{ event.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
+      <p>Location: {{ event.location }}</p>
+      <p>Cost: ${{ event.cost }}</p>
+      {% if user_id == event.user_id %} 
+        <p><strong>This is your event!</strong></p>
+      {% endif %}  
+     </li>
+    {% else %}
+     <li>No events found</li>
     {% endfor %}
   </ul>
 {% endblock %}

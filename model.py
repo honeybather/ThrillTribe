@@ -19,10 +19,9 @@ class User(db.Model):
     # Define relation to BucketList: each user can have multiple bucketlist items
     bucket_list_items = db.relationship("BucketList", back_populates="user")
     
-
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
-    
+
 
 class Category(db.Model):
      """Activty categories."""
@@ -37,9 +36,8 @@ class Category(db.Model):
 
      def __repr__(self):
         return f"<Category category_id={self.category_id} description={self.description}>"
+  
 
-     
-     
 class Activity(db.Model):
     """An activity."""
 
@@ -73,12 +71,24 @@ class Event(db.Model):
     location = db.Column(db.String, nullable=False) 
     skill_level_requirement = db.Column(db.String) 
     cost = db.Column(db.Float)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
+    user = db.relationship('User', backref='events')
     activity = db.relationship('Activity', back_populates='events')
     event_participants = db.relationship('EventParticipant', back_populates='event')
 
     def __repr__(self):
             return f"<Event event_id={self.event_id} title={self.title}>"
+
+    def to_dict(self):
+        # Convert the event object to a dictionary
+        return {
+            'title': self.title,
+            'description': self.description,
+            'date': self.date_time.isoformat(),  # Convert date_time to ISO format string
+            'location': self.location,
+            'cost': self.cost
+        }
     
 
 class EventParticipant(db.Model):

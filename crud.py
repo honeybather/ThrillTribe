@@ -18,7 +18,7 @@ def create_category(description):
     """Create and return a category"""
 
     category = Category(description=description)
-
+ 
     return category 
 
 #new_category = create_category(description='Outdoor Adventures')
@@ -54,11 +54,17 @@ def get_user_by_id(user_id):
 
 def get_events_by_activity(activity_id):
     """Return events filtered by activity ID."""
-   # return Event.query.().all()
+    # Filter events where the activity_id matches the given activity_id
+    # Event.activity_id == activity_id checks if the activity_id field matches the provided ID
+    # .all() gets the all matching event or returns None if no match is found
+    return Event.query.filter(Event.activity_id == activity_id).all()
 
 def get_events_by_date(date):
     """Return events filtered by date."""
-   # return Event.query.().all()
+    # filter events where the date matches the given date
+    # event.date == date checks if the data field matches the provided data
+    # .all() retireves all events that match the condition 
+    return Event.query.filter(Event.date_time == date).all()
 
 def get_events():
     """Return all events."""
@@ -68,13 +74,9 @@ def get_event_by_id(event_id):
     """Return a specific event by its ID."""
     return Event.query.get(event_id)
 
-def get_event_by_activity(activity_id):
-    """Return events by activity ID."""
-   # return Event.query.().all()
-
-def get_event_by_date(date):
-    """Return events by date."""
-   # return Event.query.().all()
+def get_event_by_activity_and_date(activity_id, date):
+    """Return events filtered by activity_id and date."""
+    return Event.query.filter_by(activity_id=activity_id, date=date).all()
 
 def get_user_by_email(email):
     """Return a user by email"""
@@ -84,6 +86,7 @@ def get_user_by_email(email):
     # .first() gets the first matching user or returns None if no match is found.
     return User.query.filter(User.email == email).first()
 
+
 def create_event(activity_id, title, description, date_time, location, skill_level_requirement, cost):
     """Create and return an event."""
     event = Event(activity_id=activity_id, 
@@ -92,7 +95,7 @@ def create_event(activity_id, title, description, date_time, location, skill_lev
                   date_time=date_time, 
                   location=location, 
                   skill_level_requirement=skill_level_requirement, 
-                  cost=cost)
+                  cost=cost) # add user_id to associate the event with the user
     return event
 
 # from datetime import datetime
@@ -101,16 +104,17 @@ def create_event(activity_id, title, description, date_time, location, skill_lev
 # date_time=datetime(2024, 7, 15, 10, 0), location='Malibu Beach', skill_level_requirement='Intermediate', 
 # cost=50.0)
 
-
-     # Check if the code is correct.
-def create_event_participation(participation_id, event_id, user_id, status, dates_created)
-    """"Create and return a new event participation record"""
-    new_participation = EventParticipant(participation_id=participation_id
-                                        event_id=event_id
-                                        user_id=user_id
-                                        status=status
-                                        dates_created=dates_created)
-    return new_participation                               
+def create_event_participation(participation_id, event_id, user_id, status, dates_created):
+    """Create a new event participation record."""
+    new_participation = EventParticipant(
+        participation_id=participation_id,
+        event_id=event_id,
+        user_id=user_id,
+        status=status,
+        dates_created=dates_created
+    )
+    db.session.add(new_participation)
+    db.session.commit()
 
 def create_bucket_list(activity_id, user_id, status):
     """Create and return a bucket list item."""
@@ -133,6 +137,10 @@ def create_expert_advice(activity_id, title, content, expert_bio):
 # new_expert_advice = create_expert_advice(activity_id=new_activity.activity_id,
 # title='Surfing Tips', content='Learn how to catch the perfect wave.',
 # expert_bio='Drake, Surfing Enthusiast')
+
+def get_events_by_user(user_id):
+    """"Return events created by a specific user"""
+    return Event.query.filter(Event.user_id == user_id).all()
 
 if __name__ == '__main__':
     from server import app

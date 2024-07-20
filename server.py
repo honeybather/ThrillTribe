@@ -1,11 +1,12 @@
 """Server for ThrillTribe app."""
 
-# Import necessary modules and functions from Flask and other files
-from flask import (Flask, render_template, request, flash, session, redirect) 
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify) 
 from model import connect_to_db, db 
 from jinja2 import StrictUndefined 
 import crud # for interacting with the database
 from datetime import datetime
+
+# import pdb; pdb.set_trace() # learn how to use breakpoints 
 
 app = Flask(__name__) # Create an instance of Flask with the name of the module
 app.app_context().push() # Push the application context to be able to use Flask extensions outside of request handlers
@@ -19,6 +20,16 @@ def homepage():
     """View my first ever homepage!"""
     return render_template('homepage.html')
 
+@app.route("/events", methods=["GET"]) 
+def all_events():
+    """View all events created by logged-in users"""
+
+    user_id = session.get('user_id')
+    activities = crud.get_activities()  # Fetch all activities for the filter dropdown
+    events = crud.get_events() 
+
+    return render_template("all_events.html", activities=activities, events=events, user_id=user_id)
+
 @app.route("/activities")
 def all_activities():
     """View all activities"""
@@ -29,8 +40,7 @@ def all_activities():
 def show_activity(activity_id):
     """Show details on a particular activity."""
     details = crud.get_activity_by_id(activity_id)
-    return render_template("activity_details.html", activity=details)
-# variable in the template, second is that variable defined 
+    return render_template("activity_details.html", activity=details)# variable in the template, second is that variable defined 
 
 @app.route("/users")
 def list_users():
@@ -92,9 +102,15 @@ def show_event_form():
     activities = crud.get_activities()
     return render_template('event_form.html', activities=activities)
 
-@app.route("/create_event", methods=["POST"]) # POST: Used for submitting data to be processed to the server.
+@app.route("/create_event", methods=["POST"]) 
 def create_event():
     """Create a new event"""
+    user_id = session.get('user_id')
+
+    if not user_id:
+        flash('Please log in to create an event')
+        return redirect('/')
+
     #input for description, date/time, location, skill level, cost
     activity_id = int(request.form.get('activities'))
     title = request.form.get('title')
@@ -112,14 +128,7 @@ def create_event():
     db.session.commit()
     
     flash('Event created successfuly!')
-    return redirect("/")
-
-@app.route("/events", methods=["GET"]) #GET: Used for retrieving data from the server. 
-def all_events():
-    """View all events"""
-    activities = crud.get_activities() # fetch all activities for filter dropdown
-    events = crud.get_events() # fetch all events from the database
-    return render_template("all_events.html", activities=activities, events=events)
+    return redirect("/events")
 
 @app.route("/join_event/<event_id>", methods=["POST"])
 def join_event(event_id):
@@ -142,30 +151,29 @@ def join_event(event_id):
         flash('user or event not found')
 
     return redirect('/')
-# create crud function for create_event_participation
 
-
-@app.route("/filter_events", methods=["GET"]) #retrieve data from the server
+@app.route("/filter_events", methods=["POST"])
 def filter_events():
     """Display Filtered Events"""
 
-    # Get the 'activity_id' parameter from the URL query string
-    activity_id = request.args.get('activity_id')
-    # Get the 'date' parameter from the form data 
-    date = request.form.get('date') 
+    # Get parameters from the JSON data
+    activity_id = request.json.get('activity_id')
+    date = request.json.get('date')
 
-    # If an activity ID is provided, filter events by that activity
-    if activity_id:
-        events = crud.get_event_by_activity(activity_id)
+    # Filter events based on provided parameters
+    if activity_id and date:
+        events = crud.get_events_by_activity_and_date(activity_id, date)
+    elif activity_id:
+        events = crud.get_events_by_activity(activity_id)
     elif date:
-        events = crud.get_event_by_date(date)
-    # If neither is provided, retrieve all events
+        events = crud.get_events_by_date(date)
     else:
         events = crud.get_events()
-    
-    return render_template("all_events.html", events=events)
-#create crud functions
 
+    # Convert events to dictionaries
+    events_list = [event.to_dict() for event in events]
+
+    return jsonify(events_list)
 
 
 if __name__ == "__main__":

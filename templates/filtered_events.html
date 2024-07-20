@@ -3,8 +3,22 @@
 {% block title %}Filtered Event{% endblock %}
 
 {% block body %}
-<input> Rita </input>
+    <h1>Filter Events</h1>
+    <form id="filter-form">
+        <label for="activity_id">Activity ID:</label>
+        <input type="text" id="activity_id" name="activity_id">
+
+        <label for="date">Date</label>
+        <input name="date" type="datetime-local" id="date"><br><br>
+
+        <button type="submit">Filter Events</button>
+    </form>
+
+    <div id="event-container"></div>
 {% endblock %}
+
 {% block after_body %}
+    <!-- Link to Javascript file -->
+    <script src="{{ url_for('static', filename='js/filter-events.js') }}"></script>
 {% endblock %}
 
