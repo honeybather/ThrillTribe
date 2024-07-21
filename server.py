@@ -95,7 +95,7 @@ def all_events():
             return redirect("/")
 
     return render_template("all_events.html", activities=activities, events=all_events, user_id=user_id)
-    
+
 @app.route("/create_event")
 def show_event_form():
     """Show create event form"""
@@ -130,20 +130,31 @@ def create_event():
     flash('Event created successfuly!')
     return redirect("/events")
 
-@app.route("/join_event/<event_id>", methods=["POST"])
+@app.route("/join_event/<int:event_id>", methods=["POST"])
 def join_event(event_id):
-    """ Join an event """
+    """Join an event"""
     
     user_id = session.get('user_id')
 
-    if not user_id:
-        return jsonify({"success": False, "message": "Log in to join events"})
+    # Ensure the event exists
+    event = Event.query.get(event_id)
+    if not event:
+        flash('Event not found.')
+        return redirect('/events')
 
-    if add_user_to_event(user_id, event_id):
-        return jsonify({"success": True, "message": "Successfully joined the event!"})
+    # Check if the user is already participating
+    existing_participation = EventParticipant.query.filter_by(user_id=user_id, event_id=event_id).first()
+    if existing_participation:
+        flash('You are already participating in this event.')
+        return redirect('/events')
 
-    else:
-        return jsonify({"success": False, "message": "User is already participating or event not found"})
+    # Add user to the event
+    participation = EventParticipant(user_id=user_id, event_id=event_id)
+    db.session.add(participation)
+    db.session.commit()
+    flash('Successfully joined the event!')
+    
+    return redirect('/events')
 
 @app.route("/filter_events", methods=["POST"])
 def filter_events():

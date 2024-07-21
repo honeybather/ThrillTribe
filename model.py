@@ -74,7 +74,7 @@ class Event(db.Model):
     location = db.Column(db.String, nullable=False) 
     skill_level_requirement = db.Column(db.String) 
     cost = db.Column(db.Float)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    #user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
     user = db.relationship('User', back_populates='events')
     activity = db.relationship('Activity', back_populates='events')
