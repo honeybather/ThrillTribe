@@ -78,17 +78,7 @@ class Event(db.Model):
     event_participants = db.relationship('EventParticipant', back_populates='event')
 
     def __repr__(self):
-            return f"<Event event_id={self.event_id} title={self.title}>"
-
-    def to_dict(self):
-        # Convert the event object to a dictionary
-        return {
-            'title': self.title,
-            'description': self.description,
-            'date': self.date_time.isoformat(),  # Convert date_time to ISO format string
-            'location': self.location,
-            'cost': self.cost
-        }
+        return f"<Event event_id={self.event_id} title={self.title}>"
     
 
 class EventParticipant(db.Model):

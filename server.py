@@ -20,16 +20,6 @@ def homepage():
     """View my first ever homepage!"""
     return render_template('homepage.html')
 
-@app.route("/events", methods=["GET"]) 
-def all_events():
-    """View all events created by logged-in users"""
-
-    user_id = session.get('user_id')
-    activities = crud.get_activities()  # Fetch all activities for the filter dropdown
-    events = crud.get_events() 
-
-    return render_template("all_events.html", activities=activities, events=events, user_id=user_id)
-
 @app.route("/activities")
 def all_activities():
     """View all activities"""
@@ -42,14 +32,7 @@ def show_activity(activity_id):
     details = crud.get_activity_by_id(activity_id)
     return render_template("activity_details.html", activity=details)# variable in the template, second is that variable defined 
 
-@app.route("/users")
-def list_users():
-    """View all users"""
-    users = crud.get_users()
-    return render_template("user_list.html", users=users)
 
-@app.route("/users/<user_id>")
-def show_user(user_id):
     """Show details on a selected user"""
     user = crud.get_user_by_id(user_id)
     return render_template("user_list.html", user=user)
@@ -96,6 +79,23 @@ def login():
     flash('Logged in')
     return redirect("/")
 
+@app.route("/events") 
+def all_events():
+    """View all events created by all users"""
+
+    user_id = session.get('user_id')
+    activities = crud.get_activities()  # Fetch all activities for the filter dropdown
+    all_events = crud.get_events()  # Fetch all all events
+
+    # Check if user is logged in
+    if user_id:
+        user = crud.get_user_by_id(user_id)
+        if not user:
+            flash("User not found")
+            return redirect("/")
+
+    return render_template("all_events.html", activities=activities, events=all_events, user_id=user_id)
+    
 @app.route("/create_event")
 def show_event_form():
     """Show create event form"""
@@ -132,25 +132,18 @@ def create_event():
 
 @app.route("/join_event/<event_id>", methods=["POST"])
 def join_event(event_id):
-    """Join events"""
-    # get the logged-in user's ID from the session
+    """ Join an event """
+    
     user_id = session.get('user_id')
+
     if not user_id:
-        flash("Log in to join events")
-        return redirect("/")
+        return jsonify({"success": False, "message": "Log in to join events"})
 
-    # get the event and user details from the database
-    event = crud.get_event_by_id(event_id)
-    user = crud.get_user_by_id(user_id)
+    if add_user_to_event(user_id, event_id):
+        return jsonify({"success": True, "message": "Successfully joined the event!"})
 
-    if event and user:
-        # create a new event participation record in the databse 
-        crud.create_event_participation(user_id, event_id)
-        flash('Successfully joined the event!')
     else:
-        flash('user or event not found')
-
-    return redirect('/')
+        return jsonify({"success": False, "message": "User is already participating or event not found"})
 
 @app.route("/filter_events", methods=["POST"])
 def filter_events():

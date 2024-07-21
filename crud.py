@@ -4,38 +4,6 @@ from model import db, User, Category, Activity, Event, EventParticipant, BucketL
 from flask import render_template
 import crud
 
-def create_user(email, password):
-    """Create and return a new user."""
-
-    user = User(email=email, password=password)
-
-    return user 
-
-#user1 = User(email='hello@world.com')
-#user2 = User(password='test')
-
-def create_category(description):
-    """Create and return a category"""
-
-    category = Category(description=description)
- 
-    return category 
-
-#new_category = create_category(description='Outdoor Adventures')
-#new_category = create_category('Outdoor Adventures')
-
-def create_activity(name, overview, category_id, season):
-    """Create and return a activity"""
-
-    activity = Activity(name=name,
-                        overview=overview,
-                        category_id=category_id,
-                        season=season)
-    return activity
-
-#new_activity = create_activity(name='Surfing', overview='Ride the waves', 
-# category_id=new_category.category_id, season='Summer')
-
 def get_activities():
     """Return all activities"""
     return Activity.query.all()
@@ -44,13 +12,35 @@ def get_activity_by_id(activity_id):
     """Return activity id"""
     return  Activity.query.get(activity_id)
 
-def get_users():
-    """Return all users"""
-    return User.query.all()
+def get_user_by_email(email):
+    """Return a user by email"""
+    # Look for a user in the User table whose email matches the given email.
+    # filter adds this condition to the query.
+    # User.email == email checks if the email field matches the given email.
+    # .first() gets the first matching user or returns None if no match is found.
+    return User.query.filter(User.email == email).first()
 
-def get_user_by_id(user_id):
-    """Return user id"""
-    return User.query.get(user_id)
+def create_user(email, password):
+    """Create and return a new user."""
+
+    user = User(email=email, password=password)
+
+    return user 
+
+def get_events():
+    """Return all events."""
+    return Event.query.all()
+
+def create_event(activity_id, title, description, date_time, location, skill_level_requirement, cost):
+    """Create and return an event."""
+    event = Event(activity_id=activity_id, 
+                  title=title, 
+                  description=description,
+                  date_time=date_time, 
+                  location=location, 
+                  skill_level_requirement=skill_level_requirement, 
+                  cost=cost) # add user_id to associate the event with the user
+    return event
 
 def get_events_by_activity(activity_id):
     """Return events filtered by activity ID."""
@@ -66,43 +56,43 @@ def get_events_by_date(date):
     # .all() retireves all events that match the condition 
     return Event.query.filter(Event.date_time == date).all()
 
-def get_events():
-    """Return all events."""
-    return Event.query.all()
-
-def get_event_by_id(event_id):
-    """Return a specific event by its ID."""
-    return Event.query.get(event_id)
-
 def get_event_by_activity_and_date(activity_id, date):
     """Return events filtered by activity_id and date."""
     return Event.query.filter_by(activity_id=activity_id, date=date).all()
 
-def get_user_by_email(email):
-    """Return a user by email"""
-    # Look for a user in the User table whose email matches the given email.
-    # filter adds this condition to the query.
-    # User.email == email checks if the email field matches the given email.
-    # .first() gets the first matching user or returns None if no match is found.
-    return User.query.filter(User.email == email).first()
 
 
-def create_event(activity_id, title, description, date_time, location, skill_level_requirement, cost):
-    """Create and return an event."""
-    event = Event(activity_id=activity_id, 
-                  title=title, 
-                  description=description,
-                  date_time=date_time, 
-                  location=location, 
-                  skill_level_requirement=skill_level_requirement, 
-                  cost=cost) # add user_id to associate the event with the user
-    return event
 
-# from datetime import datetime
-# new_event = create_event(activity_id=new_activity.activity_id, title='Surfing in Hawaï', 
-# description='Lets enjoy surfing the beautiful beaches of Hawaï.',
-# date_time=datetime(2024, 7, 15, 10, 0), location='Malibu Beach', skill_level_requirement='Intermediate', 
-# cost=50.0)
+
+def add_user_to_event(user_id, event_id):
+    """ Add user to event participants"""
+    
+    # Retrieve the event and user from the database
+    event = get_event_by_id(event_id)
+    user = get_user_by_id(user_id)
+    
+    if event and user:
+        # Check if the user is already participating in the event
+        existing_participation = EventParticipant.query.filter_by(user_id=user_id, event_id=event_id).first()
+        if not existing_participation:
+            # Add the user to the event's participants
+            new_participation = EventParticipant(user_id=user_id, event_id=event_id, status='Joined', dates_created=datetime.now())
+            db.session.add(new_participation)
+            db.session.commit()
+            return True
+    return False
+
+def get_event_participants(event_id):
+    """Return all participants for a specific event"""
+    return EventParticipant.query.filter_by(event_id=event_id).all()
+    
+def is_user_participating(user_id, event_id):
+    """Check if the user is already participating in the event"""
+    return EventParticipant.query.filter_by(user_id=user_id, event_id=event_id).first() is not None
+
+def get_event_by_id(event_id):
+    """Return a specific event by its ID."""
+    return Event.query.get(event_id)
 
 def create_event_participation(participation_id, event_id, user_id, status, dates_created):
     """Create a new event participation record."""
@@ -116,31 +106,19 @@ def create_event_participation(participation_id, event_id, user_id, status, date
     db.session.add(new_participation)
     db.session.commit()
 
-def create_bucket_list(activity_id, user_id, status):
-    """Create and return a bucket list item."""
-    bucket_list_item = BucketList(activity_id=activity_id, 
-                                  user_id=user_id, 
-                                  status=status)
-    return bucket_list_item 
-
-#new_bucket_list_item = create_bucket_list(activity_id=new_activity.activity_id,
-# user_id=new_user.user_id, status="Pending")
-    
-def create_expert_advice(activity_id, title, content, expert_bio):
-    """Create and return expert advice."""
-    expert_advice = ExpertAdvice(activity_id=activity_id, 
-                                 title=title, 
-                                 content=content, 
-                                 expert_bio=expert_bio)
-    return expert_advice
-
-# new_expert_advice = create_expert_advice(activity_id=new_activity.activity_id,
-# title='Surfing Tips', content='Learn how to catch the perfect wave.',
-# expert_bio='Drake, Surfing Enthusiast')
-
 def get_events_by_user(user_id):
     """"Return events created by a specific user"""
     return Event.query.filter(Event.user_id == user_id).all()
+
+def add_user_to_event(user_id, event_id):
+    """Add user to event participants"""
+    event = get_event_by_id(event_id)
+    user = get_user_by_id(user_id)
+    if event and user:
+        event.participants.append(user)
+        db.session.commit()
+        return True
+    return False
 
 if __name__ == '__main__':
     from server import app
