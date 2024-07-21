@@ -39,7 +39,7 @@ def create_event(activity_id, title, description, date_time, location, skill_lev
                   date_time=date_time, 
                   location=location, 
                   skill_level_requirement=skill_level_requirement, 
-                  cost=cost) # add user_id to associate the event with the user
+                  cost=cost)
     return event
 
 def get_events_by_activity(activity_id):

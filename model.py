@@ -18,6 +18,9 @@ class User(db.Model):
     
     # Define relation to BucketList: each user can have multiple bucketlist items
     bucket_list_items = db.relationship("BucketList", back_populates="user")
+
+    # Define relationship to Event: each user can create multiple events
+    events = db.relationship("Event", back_populates="user")
     
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
@@ -73,7 +76,7 @@ class Event(db.Model):
     cost = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
-    user = db.relationship('User', backref='events')
+    user = db.relationship('User', back_populates='events')
     activity = db.relationship('Activity', back_populates='events')
     event_participants = db.relationship('EventParticipant', back_populates='event')
 
