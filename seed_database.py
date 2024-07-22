@@ -24,7 +24,7 @@ app.app_context().push()
 db.create_all()
 
 # Load data from JSON files
-with open('category.json') as f:
+with open('data/category.json') as f:
     category_data = json.loads(f.read())
 
 # Create Category instances and store them in a list
@@ -38,7 +38,7 @@ db.session.add_all(category_in_db)
 db.session.commit()
     
 
-with open('activities.json') as f:
+with open('data/activities.json') as f:
     activity_data = json.loads(f.read())
 print(activity_data)
 
@@ -67,11 +67,10 @@ for n in range(10):
     user = crud.create_user(email, password)
     db.session.add(user)
 
-    # Assign the user to random activities
-    for i in range(10):
-        random_activity = choice(activity_data)
-        # Assuming you have a function to assign activities to users
-        user_activity = crud.create_user_activity(user, random_activity['name'])
-        db.session.add(user_activity)
+    # # Assign the user to random activities
+    # for i in range(10):
+    #     random_activity = choice(activity_data)
+    #     user_activity = crud.create_user_activity(user, random_activity['name'])
+    #     db.session.add(user_activity)
 
 db.session.commit() 

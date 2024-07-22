@@ -1,5 +1,7 @@
+// Get the form element
 const filterForm = document.querySelector('#filter-form');
 
+// Add a submit event listener to the form
 filterForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
@@ -11,15 +13,15 @@ filterForm.addEventListener('submit', (event) => {
 
   // Send a POST request with JSON data
   fetch('/filter_events', {
-    method: 'POST',
+    method: 'POST', 
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json' // Set the content type to JSON
     },
-    body: JSON.stringify(formData)
+    body: JSON.stringify(formData) // Convert formData to JSON
   })
-  .then(response => response.json())
+  .then(response => response.json()) // Parse the response as JSON
   .then(events => {
-    const eventContainer = document.querySelector('#event-container');
+    const eventContainer = document.querySelector('#event-container'); // Select the event container element
     eventContainer.innerHTML = '';
 
     events.forEach(event => {
@@ -72,4 +74,4 @@ fetch('/some-url')
     // Update the text content of the HTML element with ID 'my-div'
     document.querySelector('#my-div').innerText = JSON.stringify(responseData);
   });
-
+  

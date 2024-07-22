@@ -4,8 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# tables aren't linking 
+
 class User(db.Model):
-    """A user.""" 
+    """A user."""
 
     __tablename__ = "users"
 
@@ -15,13 +17,14 @@ class User(db.Model):
 
     # Define relationship to EventParticipant: each user can have multiple participations
     event_participants = db.relationship("EventParticipant", back_populates="user")
-    
+
     # Define relation to BucketList: each user can have multiple bucketlist items
     bucket_list_items = db.relationship("BucketList", back_populates="user")
 
     # Define relationship to Event: each user can create multiple events
-    events = db.relationship("Event", back_populates="user")
-    
+    events = db.relationship('Event', back_populates='user')
+
+
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
 
@@ -30,7 +33,7 @@ class Category(db.Model):
      """Activty categories."""
 
      __tablename__ = "categories"
-
+    
      category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
      description = db.Column(db.String) 
 
@@ -66,15 +69,16 @@ class Event(db.Model):
 
     __tablename__ = "events"
 
-    event_id = db.Column(db.Integer, autoincrement=True, primary_key=True) 
-    activity_id = db.Column(db.Integer, db.ForeignKey('activities.activity_id')) 
-    title = db.Column(db.String, nullable=False) 
-    description = db.Column(db.String) 
-    date_time = db.Column(db.DateTime, nullable=False) 
-    location = db.Column(db.String, nullable=False) 
-    skill_level_requirement = db.Column(db.String) 
+    event_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    activity_id = db.Column(db.Integer, db.ForeignKey('activities.activity_id'))
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String)
+    date_time = db.Column(db.DateTime, nullable=False)
+    location = db.Column(db.String, nullable=False)
+    skill_level_requirement = db.Column(db.String)
     cost = db.Column(db.Float)
-    #user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+
 
     user = db.relationship('User', back_populates='events')
     activity = db.relationship('Activity', back_populates='events')
@@ -99,7 +103,7 @@ class EventParticipant(db.Model):
     user = db.relationship("User", back_populates="event_participants")
 
     def __repr__(self):
-         return f"<EventParticipant participation_id={self.participation_id}>"
+         return f"<EventParticipant participation_id={self.participation_id} user={self.user} event={self.event}>"
     
 
 class BucketList(db.Model):

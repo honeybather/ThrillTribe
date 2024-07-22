@@ -2,12 +2,23 @@
 
 from model import db, User, Category, Activity, Event, EventParticipant, BucketList, ExpertAdvice, connect_to_db
 from flask import render_template
-import crud
+
+def create_activity(name, overview, category_id, season):
+
+    activity = Activity(name=name, overview=overview, category_id=category_id, season=season)
+
+    return activity 
 
 def get_activities():
     """Return all activities"""
     return Activity.query.all()
 
+def create_category(description):
+    """"return a new category object """
+    category = Category(description=description)
+
+    return category 
+    
 def get_activity_by_id(activity_id):
     """Return activity id"""
     return  Activity.query.get(activity_id)
@@ -19,6 +30,10 @@ def get_user_by_email(email):
     # User.email == email checks if the email field matches the given email.
     # .first() gets the first matching user or returns None if no match is found.
     return User.query.filter(User.email == email).first()
+
+def get_user_by_id(user_id):
+
+    return User.query.get(user_id)
 
 def create_user(email, password):
     """Create and return a new user."""
@@ -60,10 +75,6 @@ def get_event_by_activity_and_date(activity_id, date):
     """Return events filtered by activity_id and date."""
     return Event.query.filter_by(activity_id=activity_id, date=date).all()
 
-
-
-
-
 def add_user_to_event(user_id, event_id):
     """ Add user to event participants"""
     
@@ -82,43 +93,37 @@ def add_user_to_event(user_id, event_id):
             return True
     return False
 
+def get_event_by_id(event_id):
+    """Return a specific event by its ID."""
+
+    return Event.query.get(event_id)
+
 def get_event_participants(event_id):
     """Return all participants for a specific event"""
     return EventParticipant.query.filter_by(event_id=event_id).all()
     
 def is_user_participating(user_id, event_id):
     """Check if the user is already participating in the event"""
-    return EventParticipant.query.filter_by(user_id=user_id, event_id=event_id).first() is not None
+    return EventParticipant.query.filter_by(user_id=user_id, event_id=event_id).first() 
 
-def get_event_by_id(event_id):
-    """Return a specific event by its ID."""
-    return Event.query.get(event_id)
-
-def create_event_participation(participation_id, event_id, user_id, status, dates_created):
+def create_event_participation(event_id, user_id):
     """Create a new event participation record."""
+    print("Event id", event_id, type(event_id), "User id", user_id, type(user_id))
+    print("User", User.query.get(user_id))
+    print("Event", Event.query.get(event_id))
     new_participation = EventParticipant(
-        participation_id=participation_id,
         event_id=event_id,
-        user_id=user_id,
-        status=status,
-        dates_created=dates_created
-    )
+        user_id=user_id)
+        #status=status,
+        #dates_created=dates_created
+    
     db.session.add(new_participation)
     db.session.commit()
+    return new_participation
 
 def get_events_by_user(user_id):
     """"Return events created by a specific user"""
     return Event.query.filter(Event.user_id == user_id).all()
-
-def add_user_to_event(user_id, event_id):
-    """Add user to event participants"""
-    event = get_event_by_id(event_id)
-    user = get_user_by_id(user_id)
-    if event and user:
-        event.participants.append(user)
-        db.session.commit()
-        return True
-    return False
 
 if __name__ == '__main__':
     from server import app

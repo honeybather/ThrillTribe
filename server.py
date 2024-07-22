@@ -1,12 +1,12 @@
 """Server for ThrillTribe app."""
 
-from flask import (Flask, render_template, request, flash, session, redirect, jsonify) 
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify, ) 
 from model import connect_to_db, db 
 from jinja2 import StrictUndefined 
 import crud # for interacting with the database
 from datetime import datetime
 
-# import pdb; pdb.set_trace() # learn how to use breakpoints 
+# learn how to use breakpoints 
 
 app = Flask(__name__) # Create an instance of Flask with the name of the module
 app.app_context().push() # Push the application context to be able to use Flask extensions outside of request handlers
@@ -100,6 +100,7 @@ def all_events():
 def show_event_form():
     """Show create event form"""
     activities = crud.get_activities()
+    print(activities)
     return render_template('event_form.html', activities=activities)
 
 @app.route("/create_event", methods=["POST"]) 
@@ -137,21 +138,25 @@ def join_event(event_id):
     user_id = session.get('user_id')
 
     # Ensure the event exists
-    event = Event.query.get(event_id)
+    event = crud.get_event_by_id(event_id)
+
     if not event:
         flash('Event not found.')
         return redirect('/events')
 
     # Check if the user is already participating
-    existing_participation = EventParticipant.query.filter_by(user_id=user_id, event_id=event_id).first()
+    existing_participation = crud.is_user_participating(user_id, event_id)
+
     if existing_participation:
         flash('You are already participating in this event.')
         return redirect('/events')
 
     # Add user to the event
-    participation = EventParticipant(user_id=user_id, event_id=event_id)
+    print("User id", user_id, type(user_id))
+    participation = crud.create_event_participation(event_id=event_id, user_id=user_id)
+    print("Event Participation", participation)
     db.session.add(participation)
-    db.session.commit()
+    db.session.commit() 
     flash('Successfully joined the event!')
     
     return redirect('/events')
