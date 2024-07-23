@@ -16,9 +16,5 @@ function joinEvent(eventId) {
         alert('Failed to join the event.' + data.message);
       }
     })
-    // .catch((error) => {
-    //   console.error('Error:', error);
-    //   alert('An error occurred while joining the event.');
-    // });
   }
-
+  

@@ -171,12 +171,20 @@ def filter_events():
         events = crud.get_events_by_activity(activity_id)
     else:
         events = crud.get_events()
+    print(events)
 
-    # Convert events to dictionaries
-    events_list = [event.to_dict() for event in events]
+    events_list = []
 
+    for event in events:
+        # the key in the dictionary is what is read by javascript,
+        # the value in the dictionary is the column in the events table
+        filtered_event = {
+            'name': event.title,
+            'description': event.description,
+            'date': event.date_time  
+        }
+        events_list.append(filtered_event)
     return jsonify(events_list)
-
 
 if __name__ == "__main__":
     connect_to_db(app) # Connect to the database using the app instance
