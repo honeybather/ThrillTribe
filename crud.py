@@ -64,16 +64,13 @@ def get_events_by_activity(activity_id):
     # .all() gets the all matching event or returns None if no match is found
     return Event.query.filter(Event.activity_id == activity_id).all()
 
-def get_events_by_date(date):
-    """Return events filtered by date."""
-    # filter events where the date matches the given date
-    # event.date == date checks if the data field matches the provided data
-    # .all() retireves all events that match the condition 
-    return Event.query.filter(Event.date_time == date).all()
+# def get_events_by_date(date):
+#     """Return events filtered by date."""
+#     return Event.query.filter(Event.date_time == date).all()
 
-def get_event_by_activity_and_date(activity_id, date):
-    """Return events filtered by activity_id and date."""
-    return Event.query.filter_by(activity_id=activity_id, date=date).all()
+# def get_event_by_activity_and_date(activity_id, date):
+#     """Return events filtered by activity_id and date."""
+#     return Event.query.filter_by(activity_id=activity_id, date=date).all()
 
 def add_user_to_event(user_id, event_id):
     """ Add user to event participants"""

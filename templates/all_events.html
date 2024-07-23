@@ -3,9 +3,24 @@
 
 {% block body %}
   <h1>All Events</h1>
-  <ul>
+
+  <!-- Filter form -->
+  <form id="filter-form">
+    <label for="activity_id">Filter by Activity:</label>
+    <select id="activity_id" name="activity_id">
+      <option value="">Select Activity</option>
+      {% for activity in activities %}
+      <option value="{{ activity.activity_id }}">{{ activity.name }}</option>
+      {% endfor %}
+      </select><br><br>
+
+      <button type="submit">Filter Events</button>
+      </form>
+
+    <!-- Display Events -->
+  <ul id="event-container">
     {% for event in events %}
-     <li>
+     <li class="event" data-activity="{{ event.activity_id }}">
       <h2>{{ event.title }}</h2>
       <p>{{ event.description }}</p>
       <p>Date: {{ event.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
@@ -22,6 +37,11 @@
     {% endfor %}
   </ul>
 
+{% endblock %}
+
+{% block after_body %}
+
   <!-- Link to Javascript file -->
   <script src="{{ url_for('static', filename='join_event.js') }}"></script>
+  <script src="{{ url_for('static', filename='filter_events.js') }}"></script>
 {% endblock %}

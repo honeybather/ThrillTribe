@@ -20,3 +20,8 @@ when this get back to the ajax call in the JS page,
 
 if you are displaying all events, delete that conent,
 fill in data received as ajax response so user can see into
+
+
+Completing the setup of filters for events.
+Enabling users to add reviews to events.
+Displaying activity posters for better visual engagement.

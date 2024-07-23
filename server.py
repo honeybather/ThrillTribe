@@ -6,8 +6,6 @@ from jinja2 import StrictUndefined
 import crud # for interacting with the database
 from datetime import datetime
 
-# learn how to use breakpoints 
-
 app = Flask(__name__) # Create an instance of Flask with the name of the module
 app.app_context().push() # Push the application context to be able to use Flask extensions outside of request handlers
 
@@ -167,15 +165,10 @@ def filter_events():
 
     # Get parameters from the JSON data
     activity_id = request.json.get('activity_id')
-    date = request.json.get('date')
 
-    # Filter events based on provided parameters
-    if activity_id and date:
-        events = crud.get_events_by_activity_and_date(activity_id, date)
-    elif activity_id:
+    # Filter events based on activity_id
+    if activity_id:
         events = crud.get_events_by_activity(activity_id)
-    elif date:
-        events = crud.get_events_by_date(date)
     else:
         events = crud.get_events()
 

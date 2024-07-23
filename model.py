@@ -4,8 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-# tables aren't linking 
-
 class User(db.Model):
     """A user."""
 
