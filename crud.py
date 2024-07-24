@@ -106,17 +106,17 @@ def create_event_participation(event_id, user_id):
     db.session.commit()
     return new_participation
 
-def get_event_participants(event_id):
-    """Return all participants for a specific event"""
-    return EventParticipant.query.filter_by(event_id=event_id).all()
-    
-def get_events_by_user(user_id):
-    """"Return events created by a specific user"""
-    return Event.query.filter(Event.user_id == user_id).all()
+# def get_event_participants(event_id):
+#     """Return all participants for a specific event"""
+#     return EventParticipant.query.filter_by(event_id=event_id).all()
 
-def get_bucket_list_items(user_id):
-    """"Return all bucket list items for user"""
-    return BucketList.query.filter(BucketList.user_id == user_id).all()
+# def get_events_by_user(user_id):
+#     """"Return events created by a specific user"""
+#     return Event.query.filter(Event.user_id == user_id).all()
+
+# def get_bucket_list_items(user_id):
+#     """"Return all bucket list items for user"""
+#     return BucketList.query.filter(BucketList.user_id == user_id).all()
 
 if __name__ == '__main__':
     from server import app
