@@ -23,6 +23,7 @@ class User(db.Model):
     events = db.relationship('Event', back_populates='user')
 
 
+    
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
 
