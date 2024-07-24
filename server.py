@@ -77,6 +77,28 @@ def login():
     flash('Logged in')
     return redirect("/")
 
+@app.route("/users", methods=["POST"])
+def view_profile():
+    """View user profile"""
+
+    # retrieve the user data from the session
+    user_id = session.get('user_id')
+    # Retrieve the user object by id.
+    user = crud.get_user_by_id(user_id)  
+
+    created_events = crud.get_events_by_user(user_id)
+    joined_events = crud.get_event_participants(user_id)
+    bucket_list = crud.get_bucket_list_items(user_id)
+
+    return render_template(
+        "user_profile.html", 
+        user=user,
+        created_events=created_events,
+        joined_events=joined_events,
+        bucket_list=bucket_list
+        )
+
+
 @app.route("/events") 
 def all_events():
     """View all events created by all users"""
