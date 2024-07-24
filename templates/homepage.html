@@ -8,7 +8,9 @@
   <ul>
     <li><a href="/activities">View all activities</a></li>
     <li><a href="/events">View all events</a></li>
-    <li><a href="/users">View my profile</a></li>
+    {% if session %}
+    <li><a href="/users/{{ session['user_id'] }}">View my profile</a></li>
+    {% endif %}
     {% if session %}
       <li><a href="/create_event">Create Event</a></li>
     {% endif %}

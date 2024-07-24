@@ -31,10 +31,6 @@ def get_user_by_email(email):
     # .first() gets the first matching user or returns None if no match is found.
     return User.query.filter(User.email == email).first()
 
-def get_user_by_id(user_id):
-
-    return User.query.get(user_id)
-
 def create_user(email, password):
     """Create and return a new user."""
 
@@ -106,13 +102,17 @@ def create_event_participation(event_id, user_id):
     db.session.commit()
     return new_participation
 
-def get_event_participants(event_id):
-    """Return all participants for a specific event"""
-    return EventParticipant.query.filter_by(event_id=event_id).all()
+def get_user_by_id(user_id):
+    """Return user by their ID."""
+    return User.query.get(user_id)
 
 def get_events_by_user(user_id):
     """"Return events created by a specific user"""
     return Event.query.filter(Event.user_id == user_id).all()
+
+def get_event_participants(user_id):
+    """"Return all events a specific user is participating in"""
+    return EventParticipant.query.filter_by(user_id=user_id).all()
 
 def get_bucket_list_items(user_id):
     """"Return all bucket list items for user"""
