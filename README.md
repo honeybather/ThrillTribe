@@ -25,3 +25,6 @@ ThrillTribe is an interactive web application designed to help users discover, c
 ---
 
 ⭐️ Let's make adventure happen!
+
+<iframe src="https://giphy.com/embed/3D1TaQliHGTNsBrs9G" width="382" height="480" style="border: none; overflow: hidden;" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+<p><a href="https://giphy.com/stickers/3D1TaQliHGTNsBrs9G">via GIPHY</a></p>
