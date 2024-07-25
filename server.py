@@ -91,7 +91,7 @@ def view_profile(user_id):
     joined_events = crud.get_event_participants(user_id)
     bucket_list = crud.get_bucket_list_items(user_id)
 
-    print(f"User: {user}")
+    print(f"User: {user}") 
     print(f"Created Events: {created_events}")
     print(f"Joined Events: {joined_events}")
     print(f"Bucket List: {bucket_list}")
@@ -137,7 +137,6 @@ def create_event():
         flash('Please log in to create an event')
         return redirect('/')
 
-    #input for description, date/time, location, skill level, cost
     activity_id = int(request.form.get('activities'))
     title = request.form.get('title')
     description = request.form.get('description')
@@ -145,11 +144,13 @@ def create_event():
     skill_level = request.form.get('skill_level')
     cost = float(request.form.get('cost'))
     date = request.form.get('date') 
-
+    
     format = '%Y-%m-%dT%H:%M'
     date_time = datetime.strptime(date, format) 
     
-    event = crud.create_event(activity_id, title, description, date_time, location, skill_level, cost)
+    event = crud.create_event(activity_id, title, description, date_time, location, skill_level, cost, user_id)
+    print(event)
+
     db.session.add(event)
     db.session.commit()
     

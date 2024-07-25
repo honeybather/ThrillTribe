@@ -42,7 +42,7 @@ def get_events():
     """Return all events."""
     return Event.query.all()
 
-def create_event(activity_id, title, description, date_time, location, skill_level_requirement, cost):
+def create_event(activity_id, title, description, date_time, location, skill_level_requirement, cost, user_id=None): 
     """Create and return an event."""
     event = Event(activity_id=activity_id, 
                   title=title, 
@@ -50,7 +50,9 @@ def create_event(activity_id, title, description, date_time, location, skill_lev
                   date_time=date_time, 
                   location=location, 
                   skill_level_requirement=skill_level_requirement, 
-                  cost=cost)
+                  cost=cost,
+                  user_id=user_id
+                  )
     return event
 
 def get_events_by_activity(activity_id):
