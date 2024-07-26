@@ -120,6 +120,37 @@ def get_bucket_list_items(user_id):
     """"Return all bucket list items for user"""
     return BucketList.query.filter(BucketList.user_id == user_id).all()
 
+def add_bucket_list_item(user_id, activity_id):
+    """Add a bucket list item for a user"""
+    new_bucket_list_item = BucketList(user_id=user_id, activity_id=activity_id, status='pending')
+    db.session.add(new_bucket_list_item)
+    db.session.commit()
+    return new_bucket_list_item
+
+def get_bucket_list_items(user_id):
+    """Return all bucket list items for a user"""
+    return BucketList.query.filter(BucketList.user_id==user_id).all()
+
+def mark_bucket_list_item_completed(bucket_list_id):
+    """Mark a bucket list item as completed"""
+    
+    bucket_list_item = BucketList.query.get(bucket_list_id)
+    if bucket_list_item:
+        bucket_list_item.status = 'completed'
+        #db.session.add(bucket_list_item) 
+        db.session.commit()
+        return bucket_list_item
+    return None 
+
+def delete_bucket_list_item(bucket_list_id):
+    """Delete a bucket list item"""
+    bucket_list_item = BucketList.query.get(bucket_list_id)
+    if bucket_list_item:
+        db.session.delete(bucket_list_item)
+        db.session.commit()
+        return bucket_list_item
+    return None
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

@@ -89,19 +89,23 @@ def view_profile(user_id):
 
     created_events = crud.get_events_by_user(user_id)
     joined_events = crud.get_event_participants(user_id)
-    bucket_list = crud.get_bucket_list_items(user_id)
+    bucket_list_items = crud.get_bucket_list_items(user_id)
+    activities = crud.get_activities()
 
     print(f"User: {user}") 
     print(f"Created Events: {created_events}")
     print(f"Joined Events: {joined_events}")
-    print(f"Bucket List: {bucket_list}")
+    print(f"Bucket List: {bucket_list_items}")
+    print(f"Activities: {activities}")
+
 
     return render_template(
         "user_profile.html", 
         user=user,
         created_events=created_events,
         joined_events=joined_events,
-        bucket_list=bucket_list
+        bucket_list_items=bucket_list_items,
+        activities=activities
         )
 
 @app.route("/events") 
@@ -213,6 +217,37 @@ def filter_events():
         }
         events_list.append(filtered_event)
     return jsonify(events_list)
+
+@app.route("/bucket_list/add", methods=["POST"])
+def add_bucket_list():
+    """Add an item to the bucket list"""
+
+    user_id = session.get('user_id') 
+
+    activity_id = int(request.form.get('activity_id'))
+    crud.add_bucket_list_item(user_id, activity_id)
+    flash('Bucket list item added!')
+    return redirect(f"/users/{user_id}")
+
+@app.route("/bucket_list/complete/<int:bucket_list_id>", methods=["POST"])
+def complete_bucket_list_item(bucket_list_id):
+    """Mark a bucket list item as completed"""
+
+    user_id = session.get('user_id')  
+
+    crud.mark_bucket_list_item_completed(bucket_list_id)
+    flash('Bucket list item completed!')
+    return redirect(f"/users/{user_id}")
+
+@app.route("/bucket_list/delete/<int:bucket_list_id>", methods=["POST"])
+def delete_bucket_list_item(bucket_list_id):
+    """Delete a bucket list item"""
+
+    user_id = session.get('user_id') 
+
+    crud.delete_bucket_list_item(bucket_list_id)
+    flash('Bucket list item deleted.')
+    return redirect(f"/users/{user_id}")
 
 if __name__ == "__main__":
     connect_to_db(app) # Connect to the database using the app instance

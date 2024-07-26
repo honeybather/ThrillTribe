@@ -18,33 +18,41 @@
     {% endif %}
 </ul>
 
-<h2>My Created Events:</h2>
-<ul>
-    {% if created_events %}
-        {% for event in created_events %}
-        <li>
-            <h3>{{ event.title }}</h3>
-            <p>{{ event.description }}</p>
-            <p>Date: {{ event.date_time }}</p>
-        </li>
-        {% endfor %}
-    {% else %}
-        <p>No created events.</p>
-    {% endif %}
-</ul>
+<h2>Bucket List</h2>
 
-<h2>Bucket List:</h2>
-<ul>
-    {% if bucket_list %}
-        {% for item in bucket_list %}
+<!-- Form to add a new goal/experience -->
+<form action="/bucket_list/add" method="post">
+    <label for="activity_id">Take on a new challenge:</label>
+    <select name="activity_id" id="activity_id">
+        {% for activity in activities %}
+        <option value="{{ activity.activity_id }}">{{ activity.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Add to Bucket List</button>
+</form>
+
+<!-- Check if there are any bucket list items -->
+{% if bucket_list_items %}
+    <ul>
+        {% for item in bucket_list_items %}
         <li>
-            <h3>{{ item.activity.name }}</h3> 
-            <p>Status: {{ item.status }}</p>
+            <!-- Display bucket list item -->
+            <h3>{{ item.activity.name }}</h3>
+
+            <!-- Form to mark item as completed -->
+            <form action="/bucket_list/complete/{{ item.bucket_list_id }}" method="post">
+                <button type="submit">Mark as Completed</button>
+            </form>
+            
+            <!-- Form to delete item -->
+            <form action="/bucket_list/delete/{{ item.bucket_list_id }}" method="post">
+                <button type="submit">Delete</button>
+            </form>
         </li>
         {% endfor %}
-    {% else %}
-        <p>Bucket list is empty.</p>
-    {% endif %}
-</ul>
+    </ul>
+{% else %}
+    <p>Bucket list is empty.</p>
+{% endif %}
 
 {% endblock %}
