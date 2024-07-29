@@ -1,6 +1,6 @@
 """Server for ThrillTribe app."""
 
-from flask import (Flask, render_template, request, flash, session, redirect, jsonify, ) 
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify, url_for ) 
 from model import connect_to_db, db 
 from jinja2 import StrictUndefined 
 import crud # for interacting with the database
@@ -248,6 +248,7 @@ def delete_bucket_list_item(bucket_list_id):
     crud.delete_bucket_list_item(bucket_list_id)
     flash('Bucket list item deleted.')
     return redirect(f"/users/{user_id}")
+
 
 if __name__ == "__main__":
     connect_to_db(app) # Connect to the database using the app instance

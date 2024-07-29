@@ -3,6 +3,7 @@
 {% block body %}
 <h1>{{ user.email }}'s Profile</h1> <!-- Change email to username-->
 
+
 <h2>My Joined Events:</h2>
 <ul>
     {% if joined_events %}
@@ -36,8 +37,10 @@
     <ul>
         {% for item in bucket_list_items %}
         <li>
-            <!-- Display bucket list item -->
-            <h3>{{ item.activity.name }}</h3>
+            <!-- Display bucket list item with checkbox -->
+                <input type="checkbox" id="bucket-list-{{ item.bucket_list_id }}"
+                {% if item.status == 'completed' %} checked {% endif %} disabled>
+                <label for="bucket-list-{{ item.bucket_list_id }}">{{ item.activity.name }}</label>
 
             <!-- Form to mark item as completed -->
             <form action="/bucket_list/complete/{{ item.bucket_list_id }}" method="post">
@@ -54,5 +57,4 @@
 {% else %}
     <p>Bucket list is empty.</p>
 {% endif %}
-
 {% endblock %}
