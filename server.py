@@ -236,7 +236,7 @@ def complete_bucket_list_item(bucket_list_id):
     user_id = session.get('user_id')  
 
     crud.mark_bucket_list_item_completed(bucket_list_id)
-    flash('Bucket list item completed!')
+    #flash('Bucket list item completed!')
     return redirect(f"/users/{user_id}")
 
 @app.route("/bucket_list/delete/<int:bucket_list_id>", methods=["POST"])

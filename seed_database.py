@@ -67,10 +67,4 @@ for n in range(10):
     user = crud.create_user(email, password)
     db.session.add(user)
 
-    # # Assign the user to random activities
-    # for i in range(10):
-    #     random_activity = choice(activity_data)
-    #     user_activity = crud.create_user_activity(user, random_activity['name'])
-    #     db.session.add(user_activity)
-
 db.session.commit() 

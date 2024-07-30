@@ -19,6 +19,21 @@
     {% endif %}
 </ul>
 
+<h2>My Created Events:</h2>
+<ul>
+    {% if created_events %}
+        {% for event in created_events %}
+        <li>
+            <h3>{{ event.title }}</h3> 
+            <p>{{ event.description }}</p>
+            <p>Date: {{ event.date_time }}</p>
+        </li>
+        {% endfor %}
+    {% else %}
+        <p>No created events.</p>
+    {% endif %}
+</ul>
+
 <h2>Bucket List</h2>
 
 <!-- Form to add a new goal/experience -->
@@ -54,7 +69,12 @@
         </li>
         {% endfor %}
     </ul>
+    
 {% else %}
     <p>Bucket list is empty.</p>
 {% endif %}
+
+<!-- <button onclick="myFunction()">Mark as Completed</button> -->
+<div id="snackbar">Bucket list item completed!</div>
+
 {% endblock %}

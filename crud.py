@@ -137,7 +137,6 @@ def mark_bucket_list_item_completed(bucket_list_id):
     bucket_list_item = BucketList.query.get(bucket_list_id)
     if bucket_list_item:
         bucket_list_item.status = 'completed'
-        #db.session.add(bucket_list_item) 
         db.session.commit()
         return bucket_list_item
     return None 

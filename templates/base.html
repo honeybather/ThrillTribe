@@ -4,49 +4,19 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>
-      {% block title %}{% endblock %}
-    </title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image/x-icon" href="/static/images/logo.png"> 
-    <!-- trophy animation CSS -->
-    <link rel="stylesheet" href="/static/css/trophy.css">
   </head>
   {% endblock %}
+  
   <body>
-
     {% for msg in get_flashed_messages() %}
       <p class="flash-msg">
         {{ msg }}
       </p>
     {% endfor %}
 
-      <!-- Toast Notification -->
-      <div id="toast" class="toast hide">
-        <div class="toast-content">
-          <p>Challenge marked as done!</p>
-        </div>
-      </div>
-
-    {% block after_body %}{% endblock %}
-        <!-- JavaScript to handle toast notifications -->
-        <script>
-          // Function to show the toast notification
-          function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.querySelector('.toast-content p').textContent = message;
-            toast.classList.remove('hide');
-            setTimeout(() => {
-              toast.classList.add('hide');
-            }, 3000); // Hide after 3 seconds
-          }
-    
-          // Automatically show toast for flashed messages
-          const flashMsg = document.querySelector('.flash-msg');
-          if (flashMsg) {
-            showToast(flashMsg.textContent);
-          }
-        </script>
-    <script src="/static/js/trophy.js"></script>
+    {% block body %}{% endblock %}
   </body>
 </html>
