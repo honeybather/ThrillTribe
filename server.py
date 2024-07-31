@@ -22,8 +22,9 @@ def homepage():
 @app.route("/activities")
 def all_activities():
     """View all activities"""
+    categories = crud.get_all_categories()
     activities = crud.get_activities()
-    return render_template("all_activities.html", activities=activities)
+    return render_template("all_activities.html", categories=categories, activities=activities)
 
 @app.route("/activities/<activity_id>")
 def show_activity(activity_id):
@@ -152,8 +153,8 @@ def create_event():
     location = request.form.get('location')
     skill_level = request.form.get('skill_level')
     cost = float(request.form.get('cost'))
+
     date = request.form.get('date') 
-    
     format = '%Y-%m-%dT%H:%M'
     date_time = datetime.strptime(date, format) 
     
@@ -222,6 +223,31 @@ def filter_events():
         }
         events_list.append(filtered_event)
     return jsonify(events_list)
+
+@app.route("/filter_activities", methods=["POST"])
+def filter_activities():
+    """Display Filtered Activities"""
+
+    # Get parameters from the JSON data
+    category_id = request.json.get('category_id')
+
+    # Filter activities based on category_id
+    if category_id:
+        activities = crud.get_activities_by_category(category_id)
+    else:
+        activities = crud.get_activities()
+
+    activities_list = []
+    for activity in activities:
+        # The key in the dictionary is what is read by JavaScript,
+        # the value in the dictionary is the column in the activities table
+        filtered_activity = {
+            'name': activity.name,
+            'overview': activity.overview, 
+        }
+        activities_list.append(filtered_activity)
+
+    return jsonify(activities_list)
 
 @app.route("/bucket_list/add", methods=["POST"])
 def add_bucket_list():

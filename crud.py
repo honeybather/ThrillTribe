@@ -13,6 +13,14 @@ def get_activities():
     """Return all activities"""
     return Activity.query.all()
 
+def get_all_categories():
+    """Return all categories"""
+    return Category.query.all()
+
+def get_activities_by_category(category_id):
+    """Return all activities by category"""
+    return Activity.query.filter(Activity.category_id == category_id).all()
+
 def create_category(description):
     """"return a new category object """
     category = Category(description=description)

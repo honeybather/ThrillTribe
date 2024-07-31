@@ -37,9 +37,6 @@
         {{ msg }}
       </p>
     {% endfor %}
-    
-    <!-- Snackbar element -->
-    <!-- <div id="snackbar">Bucket list item completed!</div> -->
 
     {% if request.path != url_for('homepage') %}
     <button class="btn" onclick="window.location.href='{{ url_for('homepage') }}'">
@@ -49,7 +46,7 @@
 
     {% block body %}{% endblock %}
     
-    <!-- <script src="/static/js/mark_completed.js"></script> -->
+
   </body>
   </body>
 </html></html>

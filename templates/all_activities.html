@@ -5,6 +5,19 @@
 {% block body %}
   <h1>All Activities</h1>
 
+  <!-- Filter form -->
+  <form id="filter-form">
+    <label for="category_id">Filter by Category:</label>
+    <select id="category_id" name="category_id">
+      <option value="">Select Category</option>
+      {% for category in categories %}
+        <option value="{{ category.category_id }}">{{ category.description }}</option>
+      {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Filter Activities</button>
+  </form>
+    
   <ul>
     {% for activity in activities %}
       <li>
@@ -14,5 +27,7 @@
       </li>
     {% endfor %}
   </ul>
-{% endblock %}
+<script src="{{ url_for('static', filename='filter_activities.js') }}"></script>
+  {% endblock %}
 
+  
