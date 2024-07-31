@@ -31,11 +31,18 @@ def get_user_by_email(email):
     # .first() gets the first matching user or returns None if no match is found.
     return User.query.filter(User.email == email).first()
 
-def create_user(email, password):
+def get_user_by_username(username):
+    """Return a user by username"""
+    return User.query.filter(User.username == username).first()
+
+def create_user(username, email, password):
     """Create and return a new user."""
 
-    user = User(email=email, password=password)
+    user = User(username=username, email=email, password=password)
 
+    db.session.add(user)
+    db.session.commit()
+    
     return user 
 
 def get_events():
@@ -149,6 +156,8 @@ def delete_bucket_list_item(bucket_list_id):
         db.session.commit()
         return bucket_list_item
     return None
+
+
 
 if __name__ == '__main__':
     from server import app

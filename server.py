@@ -2,8 +2,9 @@
 
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify, url_for ) 
 from model import connect_to_db, db 
+from model import db, User, Category, Activity, Event, BucketList, ExpertAdvice
 from jinja2 import StrictUndefined 
-import crud # for interacting with the database
+import crud
 from datetime import datetime
 
 app = Flask(__name__) # Create an instance of Flask with the name of the module
@@ -39,39 +40,43 @@ def show_activity(activity_id):
 def register_user():
     """Create a new user"""
 
-    # Retrieve email and password from the form submitted by the user
+    # Retrieve username, email, and password from the form submitted by the user
+    username = request.form.get('username')
     email = request.form.get('email')
     password = request.form.get('password')
 
-    if email: 
-        user = crud.get_user_by_email(email)
-
-        if user:
-            flash('Account already created')
-            return redirect("/")
-
-        else:
-            new_user = crud.create_user(email, password)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Account created')
-
+    # Check if username already exists
+    user = crud.get_user_by_username(username)
+    if user:
+        flash('Username already exists')
         return redirect("/")
+
+    # Check if email already exists
+    user = crud.get_user_by_email(email)
+    if user:
+        flash('Email already in use')
+        return redirect("/")
+
+    new_user = crud.create_user(username, email, password)
+    db.session.add(new_user)
+    db.session.commit()
+    flash('Account created')
+    return redirect("/")
 
 @app.route("/login", methods=["POST"])
 def login():
     """Log in a user"""
 
-    email = request.form.get('email')
+    username = request.form.get('username')
     password = request.form.get('password')
 
-    # Retrieve user from the database based on email
-    user = crud.get_user_by_email(email)
+    # Retrieve user from the database based on username
+    user = crud.get_user_by_username(username)
 
     if not user or user.password != password:
-        flash('Incorrect email or password')
+        flash('Incorrect username or password')
         return redirect("/")
-    
+
     # Store user_id in the session for future requests
     session['user_id'] = user.user_id  
     flash('Logged in')
@@ -159,7 +164,7 @@ def create_event():
     db.session.commit()
     
     flash('Event created successfuly!')
-    return redirect("/events")
+    return redirect(url_for('homepage')) 
 
 @app.route("/join_event/<int:event_id>", methods=["POST"])
 def join_event(event_id):
@@ -236,7 +241,7 @@ def complete_bucket_list_item(bucket_list_id):
     user_id = session.get('user_id')  
 
     crud.mark_bucket_list_item_completed(bucket_list_id)
-    #flash('Bucket list item completed!')
+    flash('Bucket list item completed!')
     return redirect(f"/users/{user_id}")
 
 @app.route("/bucket_list/delete/<int:bucket_list_id>", methods=["POST"])
@@ -249,6 +254,21 @@ def delete_bucket_list_item(bucket_list_id):
     flash('Bucket list item deleted.')
     return redirect(f"/users/{user_id}")
 
+@app.route('/bucket_list/undo/<int:bucket_list_id>', methods=['POST'])
+def undo_bucket_list_completion(bucket_list_id):
+    bucket_list_item = BucketList.query.get(bucket_list_id)
+    if bucket_list_item:
+        bucket_list_item.status = 'pending'
+        db.session.commit()
+    return redirect(url_for('view_profile', user_id=bucket_list_item.user_id))
+
+@app.route("/events/<int:event_id>")
+def show_event(event_id):
+    """Show details for a specific event."""
+    event = crud.get_event_by_id(event_id)
+    participants = crud.get_event_participants(event_id)
+    
+    return render_template("event_details.html", event=event, participants=participants)
 
 if __name__ == "__main__":
     connect_to_db(app) # Connect to the database using the app instance

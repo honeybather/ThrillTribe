@@ -10,6 +10,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    username = db.Column(db.String, unique=True)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
@@ -22,8 +23,6 @@ class User(db.Model):
     # Define relationship to Event: each user can create multiple events
     events = db.relationship('Event', back_populates='user')
 
-
-    
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
 

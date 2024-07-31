@@ -7,6 +7,27 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image/x-icon" href="/static/images/logo.png"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      .btn {
+        background-color: pink;
+        border: none;
+        color: white;
+        padding: 8px 12px; 
+        font-size: 14px; 
+        cursor: pointer;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000; /* Ensures button is above other content */
+        border-radius: 4px; /* adds rounded corners */
+      }
+
+      /* Darker background on mouse-over */
+      .btn:hover {
+        background-color: DeepPink;
+      }
+    </style>
   </head>
   {% endblock %}
   
@@ -16,7 +37,19 @@
         {{ msg }}
       </p>
     {% endfor %}
+    
+    <!-- Snackbar element -->
+    <!-- <div id="snackbar">Bucket list item completed!</div> -->
+
+    {% if request.path != url_for('homepage') %}
+    <button class="btn" onclick="window.location.href='{{ url_for('homepage') }}'">
+      <i class="fa fa-home"></i> Home
+    </button>
+    {% endif %}
 
     {% block body %}{% endblock %}
+    
+    <!-- <script src="/static/js/mark_completed.js"></script> -->
   </body>
-</html>
+  </body>
+</html></html>
