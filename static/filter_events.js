@@ -1,5 +1,5 @@
 // tada
-
+console.log('tada')
 const activityFilter = document.getElementById('activity_id');
 const applyFiltersButton = document.querySelector('#filter-form button');
 const eventsContainer = document.getElementById('event-container');

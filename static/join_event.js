@@ -1,3 +1,4 @@
+console.log('hey')
 function joinEvent(eventId) {
     // implement the join event functionality
     console.log('Joining event with ID:', eventId);
