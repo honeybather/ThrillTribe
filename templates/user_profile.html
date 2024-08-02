@@ -9,8 +9,7 @@
     {% if joined_events %}
         {% for event in joined_events %}
         <li>
-            <a href="/events/{{ event.event_id }}">{{ event.title }}</a>
-                <h3>{{ event.event.title }}</h3> 
+            <a href="/events/{{ event.event_id }}">{{ event.event.title }}</a>
             <p>{{ event.event.description }}</p>
             <p>Date: {{ event.event.date_time }}</p>
         </li>
@@ -26,7 +25,6 @@
         {% for event in created_events %}
         <li>
             <a href="/events/{{ event.event_id }}">{{ event.title }}</a>
-                <h3>{{ event.title }}</h3> 
             <p>{{ event.description }}</p>
             <p>Date: {{ event.date_time }}</p>
         </li>
@@ -55,12 +53,11 @@
     <ul>
         {% for item in bucket_list_items %}
         <li>
-            <!-- Display bucket list item with checkbox -->
+
                 <input type="checkbox" id="bucket-list-{{ item.bucket_list_id }}"
                 {% if item.status == 'completed' %} checked {% endif %} disabled>
                 <label for="bucket-list-{{ item.bucket_list_id }}">{{ item.activity.name }}</label>
 
-            <!-- Form to mark item as completed -->
             <form action="/bucket_list/complete/{{ item.bucket_list_id }}" method="post">
                 <button type="submit">Mark as Completed</button>
             </form>
@@ -71,7 +68,6 @@
             </form>
             {% endif %}
             
-            <!-- Form to delete item -->
             <form action="/bucket_list/delete/{{ item.bucket_list_id }}" method="post">
                 <button type="submit">Delete</button>
             </form>

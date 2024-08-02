@@ -29,8 +29,11 @@ def all_activities():
 @app.route("/activities/<activity_id>")
 def show_activity(activity_id):
     """Show details on a particular activity."""
+    # fetch activity details 
     details = crud.get_activity_by_id(activity_id)
-    return render_template("activity_details.html", activity=details)# variable in the template, second is that variable defined 
+    # fetch all events for the activity
+    events = crud.get_events_by_activity(activity_id)
+    return render_template("activity_details.html", activity=details, events=events)# variable in the template, second is that variable defined 
 
 
     """Show details on a selected user"""
@@ -87,23 +90,15 @@ def login():
 def view_profile(user_id):
     """View user profile"""
 
-    #user_id = session.get('user_id')
     user = crud.get_user_by_id(user_id) 
     if not user:
         flash('User not found')
         return redirect('/')
 
     created_events = crud.get_events_by_user(user_id)
-    joined_events = crud.get_event_participants(user_id)
+    joined_events = crud.get_event_participants(user_id) 
     bucket_list_items = crud.get_bucket_list_items(user_id)
     activities = crud.get_activities()
-
-    print(f"User: {user}") 
-    print(f"Created Events: {created_events}")
-    print(f"Joined Events: {joined_events}")
-    print(f"Bucket List: {bucket_list_items}")
-    print(f"Activities: {activities}")
-
 
     return render_template(
         "user_profile.html", 
@@ -177,25 +172,20 @@ def join_event(event_id):
     event = crud.get_event_by_id(event_id)
 
     if not event:
-        flash('Event not found.')
-        return redirect('/events')
+        return jsonify({'success': False, 'message': 'Event not found.'}), 404
 
     # Check if the user is already participating
     existing_participation = crud.is_user_participating(user_id, event_id)
 
     if existing_participation:
-        flash('You are already participating in this event.')
-        return redirect('/events')
+        return jsonify({'success': False, 'message': 'You are already participating in this event.'}), 400
 
     # Add user to the event
-    print("User id", user_id, type(user_id))
     participation = crud.create_event_participation(event_id=event_id, user_id=user_id)
-    print("Event Participation", participation)
     db.session.add(participation)
-    db.session.commit() 
-    flash('Successfully joined the event!')
-    
-    return redirect('/events')
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'Successfully joined the event!'})
 
 @app.route("/filter_events", methods=["POST"])
 def filter_events():
@@ -222,7 +212,7 @@ def filter_events():
             'date': event.date_time  
         }
         events_list.append(filtered_event)
-    return jsonify(events_list)
+    return jsonify(events_list) 
 
 @app.route("/filter_activities", methods=["POST"])
 def filter_activities():
@@ -230,6 +220,7 @@ def filter_activities():
 
     # Get parameters from the JSON data
     category_id = request.json.get('category_id')
+    print('Category ID:', category_id)
 
     # Filter activities based on category_id
     if category_id:
@@ -242,6 +233,7 @@ def filter_activities():
         # The key in the dictionary is what is read by JavaScript,
         # the value in the dictionary is the column in the activities table
         filtered_activity = {
+            'id': activity.activity_id,
             'name': activity.name,
             'overview': activity.overview, 
         }

@@ -1,3 +1,4 @@
+console.log('hi');
 const activityFilter = document.getElementById('category_id');
 const applyFiltersButton = document.querySelector('#filter-form button');
 const activitiesContainer = document.getElementById('activity-container');
@@ -26,21 +27,21 @@ applyFiltersButton.addEventListener('click', (event) => {
     if (activitiesContainer) {
       // Clear existing activities
       activitiesContainer.innerHTML = '';
-      // Continue with populating the container
+      
+      // Display filtered activities with links
+      activities.forEach(activity => { 
+        let activityDiv = document.createElement('li');
+        activityDiv.className = 'activity'; 
+        activityDiv.innerHTML = `
+          <a href="/activities/${activity.id}">
+            <h2>${activity.name}</h2>
+          </a>
+        `;
+        activitiesContainer.appendChild(activityDiv);
+      });
+      console.log('Activities added to the container');
     } else {
       console.error('Activity container not found');
     }
-
-    // Display filtered activities
-    activities.forEach(activity => { // Changed from 'event' to 'activity'
-      let activityDiv = document.createElement('li');
-      activityDiv.className = 'activity'; // Changed from 'event' to 'activity'
-      activityDiv.innerHTML = `
-        <h2>${activity.name}</h2>
-        <p>${activity.description}</p>
-      `;
-      activitiesContainer.appendChild(activityDiv);
-    });
-    console.log('Activities added to the container');
   });
 });

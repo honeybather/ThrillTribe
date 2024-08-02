@@ -15,7 +15,14 @@
       </select><br><br>
 
       <button type="submit">Filter Events</button>
+
+      <button style="font-size:13px"> <i class="fa fa-undo"></i></button>
+      
       </form>
+
+  <!-- Link to event creation form -->
+  <p><a href="{{ url_for('show_event_form') }}">Want to create your own event? Click here!</a></p>
+
 
     <!-- Display Events -->
   <ul id="event-container">

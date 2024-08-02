@@ -6,12 +6,7 @@
 <p><strong>Description:</strong> {{ event.description }}</p>
 <p><strong>Date:</strong> {{ event.date_time }}</p>
 <p><strong>Location:</strong> {{ event.location }}</p>
-<p><strong>Participants:</strong></p>
-<ul>
-    {% for participant in participants %}
-    <li>{{ participant.name }}</li>
-    {% endfor %}
-</ul>
+
 
 <a href="{{ url_for('view_profile', user_id=session.get('user_id')) }}">Back to Profile</a>
 

@@ -136,7 +136,7 @@ class ExpertAdvice(db.Model):
 
     def __repr__(self):
          return f"<ExpertAdvice advice_id={self.advice_id} title={self.title}>"
-    
+
 
 def connect_to_db(app):
     """Connect the database to Flask app."""

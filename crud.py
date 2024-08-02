@@ -165,8 +165,6 @@ def delete_bucket_list_item(bucket_list_id):
         return bucket_list_item
     return None
 
-
-
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

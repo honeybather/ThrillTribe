@@ -7,7 +7,8 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image/x-icon" href="/static/images/logo.png"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
       .btn {
         background-color: pink;
@@ -27,6 +28,19 @@
       .btn:hover {
         background-color: DeepPink;
       }
+
+      .btn.profile {
+        top: 50px; /* vertical position to place below the home button */
+      }
+
+      .btn.activities {
+        top: 90px; 
+      }
+
+      .btn.events {
+        top: 130px; 
+      }
+
     </style>
   </head>
   {% endblock %}
@@ -38,13 +52,26 @@
       </p>
     {% endfor %}
 
-    {% if request.path != url_for('homepage') %}
-    <button class="btn" onclick="window.location.href='{{ url_for('homepage') }}'">
+
+    <button class="btn home" onclick="window.location.href='{{ url_for('homepage') }}'">
       <i class="fa fa-home"></i> Home
     </button>
-    {% endif %}
+ 
+    <button class="btn profile" onclick="window.location.href='{{ url_for('view_profile', user_id=session.get('user_id')) }}'">
+      <i class="fa fa-user"></i> Profile
+    </button>
+    
+    <button class="btn activities" onclick="window.location.href='{{ url_for('all_activities') }}'">
+      <i class="fas fa-bolt"></i> Activities
+    </button>
+   
+    <button class="btn events" onclick="window.location.href='{{ url_for('all_events') }}'">
+      <i class="fas fa-dragon"></i> Events
+    </button>
+
 
     {% block body %}{% endblock %}
+    {% block after_body %}{% endblock %} 
     
 
   </body>
