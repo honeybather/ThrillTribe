@@ -86,6 +86,12 @@ def login():
     flash('Logged in')
     return redirect("/")
 
+@app.route("/logout")
+def logout():
+    session.pop('user_id', None)
+    flash('Logged out')
+    return redirect("/")
+
 @app.route("/users/<int:user_id>", methods=["GET"])
 def view_profile(user_id):
     """View user profile"""

@@ -52,15 +52,23 @@
       </p>
     {% endfor %}
 
-
     <button class="btn home" onclick="window.location.href='{{ url_for('homepage') }}'">
       <i class="fa fa-home"></i> Home
     </button>
- 
-    <button class="btn profile" onclick="window.location.href='{{ url_for('view_profile', user_id=session.get('user_id')) }}'">
+
+  <!-- Conditional button for user profile or login -->
+  {% if session.get('user_id') %}
+    <button class="btn profile" 
+            onclick="window.location.href='{{ url_for('view_profile', user_id=session.get('user_id')) }}'">
       <i class="fa fa-user"></i> Profile
     </button>
-    
+  {% else %}
+  <!-- Button for login -->
+    <button class="btn profile" onclick="window.location.href='{{ url_for('homepage') }}'">
+      <i class="fa fa-user"></i> Login
+    </button>
+  {% endif %}
+
     <button class="btn activities" onclick="window.location.href='{{ url_for('all_activities') }}'">
       <i class="fas fa-bolt"></i> Activities
     </button>
@@ -69,11 +77,7 @@
       <i class="fas fa-dragon"></i> Events
     </button>
 
-
     {% block body %}{% endblock %}
-    {% block after_body %}{% endblock %} 
-    
-
-  </body>
-  </body>
-</html></html>
+    {% block after_body %}{% endblock %}
+  </body> 
+</html> 

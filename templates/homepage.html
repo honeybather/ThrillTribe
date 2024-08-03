@@ -10,9 +10,8 @@
     <li><a href="/events">View all events</a></li>
     {% if session %}
     <li><a href="/users/{{ session['user_id'] }}">View my profile</a></li>
-    {% endif %}
-    {% if session %}
-      <li><a href="/create_event">Create Event</a></li>
+    <li><a href="/create_event">Create Event</a></li>
+    <li><a href="/logout">Log out</a></li>
     {% endif %}
 
 <h2>Create an Account</h2>

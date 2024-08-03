@@ -33,6 +33,16 @@
       <p>Date: {{ event.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
       <p>Location: {{ event.location }}</p>
       <p>Cost: ${{ event.cost }}</p>
+
+      <h3>Participants:</h3>
+      <ul>
+        {% for participant in event.event_participants %}
+        <li>{{ participant.user.username }}</li>
+        {% else %}
+        <li>No participants yet.</li>
+        {% endfor %}
+      </ul>
+        
       {% if user_id == event.user_id %} 
         <p><strong>This is your event!</strong></p>
         {% else %}

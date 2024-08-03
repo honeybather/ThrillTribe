@@ -6,8 +6,25 @@
 <p><strong>Description:</strong> {{ event.description }}</p>
 <p><strong>Date:</strong> {{ event.date_time }}</p>
 <p><strong>Location:</strong> {{ event.location }}</p>
+<p><strong>Cost:</strong> ${{ event.cost }}</p>
+    
+<h3>Participants:</h3>
+<ul>
+    {% for participant in event.event_participants %}
+        <li>{{ participant.user.username }}</li>
+    {% else %}
+        <li>No participants yet.</li>
+    {% endfor %}
+</ul>
 
+{% if session.get('user_id') == event.user_id %}
+    <p><strong>This is your event!</strong></p>
+{% else %}
+    <button onclick="joinEvent('{{ event.event_id }}')">Join</button> 
+{% endif %}  <br><br> 
 
-<a href="{{ url_for('view_profile', user_id=session.get('user_id')) }}">Back to Profile</a>
-
+{% if session.get('user_id') %}
+    <a href="{{ url_for('view_profile', user_id=session.get('user_id')) }}">Back to Profile</a>
+{% endif %}
+<script src="/static/join_event.js"></script>
 {% endblock %}
