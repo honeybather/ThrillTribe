@@ -20,7 +20,7 @@ ThrillTribe is an interactive web application designed to help users discover, c
 
 ## Contact
 
-📫 For any inquiries, please reach out to us via email at rita.galzour@gmail.com
+📫 For any inquiries, please reach out via email at rita.galzour@gmail.com
 
 ---
 
