@@ -8,76 +8,87 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image/x-icon" href="/static/images/logo.png"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
     <style>
-      .btn {
-        background-color: pink;
-        border: none;
-        color: white;
-        padding: 8px 12px; 
-        font-size: 14px; 
-        cursor: pointer;
+      body {
+        font-family: "Lato", sans-serif;
+      }
+
+      .sidenav {
+        height: 100%;
+        width: 0;
         position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 1000; /* Ensures button is above other content */
-        border-radius: 4px; /* adds rounded corners */
+        z-index: 100;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
       }
 
-      /* Darker background on mouse-over */
-      .btn:hover {
-        background-color: DeepPink;
+      .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
       }
 
-      .btn.profile {
-        top: 50px; /* vertical position to place below the home button */
+      .sidenav a:hover {
+        color: #f1f1f1;
       }
 
-      .btn.activities {
-        top: 90px; 
+      .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
       }
 
-      .btn.events {
-        top: 130px; 
+      @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
       }
 
     </style>
   </head>
   {% endblock %}
-  
+
   <body>
-    {% for msg in get_flashed_messages() %}
-      <p class="flash-msg">
-        {{ msg }}
-      </p>
-    {% endfor %}
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      <a href="{{ url_for('homepage') }}">Home</a>
+      <a href="{{ url_for('all_activities') }}">Activities</a>
+      <a href="{{ url_for('all_events') }}">Events</a>
+      {% if session.get('user_id') %}
+      <a href="{{ url_for('view_profile', user_id=session.get('user_id')) }}">Profile</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+    </div>
 
-    <button class="btn home" onclick="window.location.href='{{ url_for('homepage') }}'">
-      <i class="fa fa-home"></i> Home
-    </button>
+ 
+    <span style="font-size:30px;cursor:pointer;position:fixed;z-index:20" onclick="openNav()">&#9776;</span>
 
-  <!-- Conditional button for user profile or login -->
-  {% if session.get('user_id') %}
-    <button class="btn profile" 
-            onclick="window.location.href='{{ url_for('view_profile', user_id=session.get('user_id')) }}'">
-      <i class="fa fa-user"></i> Profile
-    </button>
-  {% else %}
-  <!-- Button for login -->
-    <button class="btn profile" onclick="window.location.href='{{ url_for('homepage') }}'">
-      <i class="fa fa-user"></i> Login
-    </button>
-  {% endif %}
 
-    <button class="btn activities" onclick="window.location.href='{{ url_for('all_activities') }}'">
-      <i class="fas fa-bolt"></i> Activities
-    </button>
-   
-    <button class="btn events" onclick="window.location.href='{{ url_for('all_events') }}'">
-      <i class="fas fa-dragon"></i> Events
-    </button>
+    <div id="main">
+      {% block body %}{% endblock %}
+      {% block after_body %}{% endblock %}
+    </div>
 
-    {% block body %}{% endblock %}
-    {% block after_body %}{% endblock %}
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      }
+
+      
+    </script>
   </body> 
-</html> 
+</html>

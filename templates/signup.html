@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="form_area">
+        <p class="title">SIGN UP</p>
+        <form action="/signup" method="POST">
+            <div class="form_group">
+                <label class="sub_title" for="username">Username</label>
+                <input placeholder="Enter a username" id="username" name="username" class="form_style" type="text" required>
+            </div>
+            <div class="form_group">
+                <label class="sub_title" for="email">Email</label>
+                <input placeholder="Enter your email" id="email" name="email" class="form_style" type="email" required>
+            </div>
+            <div class="form_group">
+                <label class="sub_title" for="password">Password</label>
+                <input placeholder="Enter your password" id="password" name="password" class="form_style" type="password" required>
+            </div>
+            <div>
+                <button class="btn" type="submit">SIGN UP</button>
+                <p>Have an Account? <a class="link" href="/login">Login Here!</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="style.css">
+<script src="path/to/your/javascript-file.js"></script>
+{% endblock %}
