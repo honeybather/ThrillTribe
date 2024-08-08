@@ -1,32 +1,111 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<div class="container">
-    <div class="form_area">
-        <p class="title">SIGN UP</p>
-        <form action="/signup" method="POST">
-            <div class="form_group">
-                <label class="sub_title" for="username">Username</label>
-                <input placeholder="Enter a username" id="username" name="username" class="form_style" type="text" required>
-            </div>
-            <div class="form_group">
-                <label class="sub_title" for="email">Email</label>
-                <input placeholder="Enter your email" id="email" name="email" class="form_style" type="email" required>
-            </div>
-            <div class="form_group">
-                <label class="sub_title" for="password">Password</label>
-                <input placeholder="Enter your password" id="password" name="password" class="form_style" type="password" required>
-            </div>
-            <div>
-                <button class="btn" type="submit">SIGN UP</button>
-                <p>Have an Account? <a class="link" href="/login">Login Here!</a></p>
-            </div>
-        </form>
-    </div>
-</div>
-{% endblock %}
+{% block body %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: url('/static/images/signup.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-{% block extra_head %}
-<link rel="stylesheet" href="style.css">
-<script src="path/to/your/javascript-file.js"></script>
+        .container {
+            width: 360px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #fff;
+            text-align: center;
+        }
+        .flash-message.success {
+            background-color: #28a745;
+        }
+        .flash-message.error {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div id="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <h2>ThrillTribe</h2>
+        <form method="POST" action="/signup">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="toggle-link" onclick="window.location.href='/login';">Have an account? Log In</div>
+    </div>
+</body>
 {% endblock %}

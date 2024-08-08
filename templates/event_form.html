@@ -3,49 +3,109 @@
 {% block title %}Create Event{% endblock %}
 
 {% block body %}
-<h1>Create a New Event</h1>
 
 <form action="/create_event" method="POST">
 
- <fieldset>
-  <legend>Event:</legend>
-
-  <label for="activities">Choose a Activity:</label>
-  <select name="activities" id="activity_id">
-    {% for activity in activities %}
-        <option value="{{activity.activity_id}}">{{activity.name}}</option>
-    {% endfor %}
- </select><br><br>
-
-  <label for="title">Title:</label>
-  <input type="text" id="title" name="title"><br><br>
-
-  <label for="description">Description:</label>
-  <input type="text" id="description" name="description"><br><br>
-
-  <label for="Location">Location:</label>
-  <input type="Location" id="Location" name="location"><br><br>
-
-  <label for="Location">Skill Level:</label>
-  <select name="skill_level" id="skill_level">
-    <option value="Beginner">Beginner</option>
-    <option value="Intermediate">Intermediate</option>
-    <option value="Advanced">Advanced</option>
-    <option value="Any">Any</option>
-  </select><br><br>
-
-  <label for="cost">Cost:</label>
-  <input type="number" id="cost" name ="cost"><br><br>
-
-  <label for="date">Date and Time</label>
-  <input name="date" type="datetime-local" id="date"><br><br>
-
-  <input type="submit" value="Submit">
-
- </fieldset>
 </form>
+<style>
+  body {
+    font-family: Arial, sans-serif; 
+  }
+  
+  .container {
+    width: 50%; /* sets the width of the parent element */
+    margin: auto; /* centers the container horizontally within its parent */
+    padding: 20px; /* adds padding inside the container */
+    border: 1px solid #ddd; /* adds a border around the container */
+    border-radius: 8px; /* rounds the corners of the container */
+    background-color: #f9f9f9; 
+  }
+  
+  h3 {
+    text-align: center; 
+    color: #333;
+    font-size: 37px; 
+  }
+  
+  label {
+    font-weight: bold; 
+    display: block; /* makes the label occupy a full line */
+    margin: 10px 0 5px; /* sets the margin around the label */
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  input[type="datetime-local"],
+  select,
+  textarea {
+    width: 100%; 
+    padding: 8px; 
+    margin-bottom: 15px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+  }
+  
+  textarea {
+    height: 100px; 
+    resize: vertical; /* allows the textarea to be resized only vertically */
+  }
+  
+  input[type="submit"] {
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 14px 20px; 
+    border: none; /* removes the border from the button */
+    border-radius: 4px; /* rounds the corners of the button */
+    cursor: pointer; /* changes the cursor to a pointer when hovering over the button */
+    font-size: 16px; 
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #45a049; 
+  }
+  
+</style>
+</head>
+<body>
 
-{% endblock %}
+<h3>Create Event</h3>
 
-{% block after_body %}
+<div class="container">
+  <form action="/action_page.php">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" placeholder="Your title..">
+
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location" placeholder="Your location..">
+    
+    <label for="skillLevel">Skill Level</label>
+    <select id="skillLevel" name="skillLevel">
+      <option value="beginner">Beginner</option>
+      <option value="intermediate">Intermediate</option>
+      <option value="advanced">Advanced</option>
+      <option value="any">Any</option>
+    </select>
+    
+    <label for="activities">Choose an Activity:</label>
+    <select name="activities" id="activity_id">
+      {% for activity in activities %}
+        <option value="{{ activity.activity_id }}">{{ activity.name }}</option>
+      {% endfor %}
+    </select>
+    
+    <label for="cost">Cost:</label>
+    <input type="number" id="cost" name="cost" placeholder="Enter cost..">
+    
+    <label for="date">Date and Time:</label>
+    <input name="date" type="datetime-local" id="date">
+    
+    <label for="description">Description</label>
+    <textarea id="description" name="description" placeholder="Write something.."></textarea>
+    
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+</body>
+
 {% endblock %}

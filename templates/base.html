@@ -4,64 +4,72 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+
     <title>{% block title %}{% endblock %}</title>
+
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image/x-icon" href="/static/images/logo.png"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
+   
+   <style>
       body {
         font-family: "Lato", sans-serif;
       }
 
+      /* styling for the sidebar navigation */
       .sidenav {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        z-index: 100;
+        height: 100%; 
+        width: 0; /* makes it hidden  */
+        position: fixed; 
+        z-index: 100; /* ensures it's above other elements */
         top: 0;
         left: 0;
-        background-color: #111;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 60px;
+        background-color: #111; 
+        overflow-x: hidden; /* hide horizontal scrollbar */
+        transition: 0.5s; /* smooth transition for opening/closing */
+        padding-top: 60px; /* padding from the top to avoid overlap with content */
       }
 
+      /* styling for the links inside the sidebar */
       .sidenav a {
-        padding: 8px 8px 8px 32px;
-        text-decoration: none;
-        font-size: 25px;
+        padding: 8px 8px 8px 32px; /* padding around links */
+        text-decoration: none; /* remove underline from links */
+        font-size: 25px; 
         color: #818181;
-        display: block;
-        transition: 0.3s;
+        display: block; /* display links as block elements */
+        transition: 0.3s; /* smooth color transition on hover */
       }
 
       .sidenav a:hover {
-        color: #f1f1f1;
+        color: #f1f1f1; /* lighter color on hover */
       }
 
       .sidenav .closebtn {
-        position: absolute;
+        position: absolute; /* position the button absolutely within the sidebar */
         top: 0;
         right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
+        font-size: 36px; 
+        margin-left: 50px; /* additional spacing */
       }
 
+      /* Media query for small screens */
       @media screen and (max-height: 450px) {
-        .sidenav {padding-top: 15px;}
-        .sidenav a {font-size: 18px;}
+        .sidenav {padding-top: 15px;} /* Reduce top padding */
+        .sidenav a {font-size: 18px;} /* Reduce font size */
       }
-
     </style>
   </head>
   {% endblock %}
 
   <body>
     <div id="mySidenav" class="sidenav">
+
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      
       <a href="{{ url_for('homepage') }}">Home</a>
       <a href="{{ url_for('all_activities') }}">Activities</a>
       <a href="{{ url_for('all_events') }}">Events</a>
+
       {% if session.get('user_id') %}
       <a href="{{ url_for('view_profile', user_id=session.get('user_id')) }}">Profile</a>
       <a href="{{ url_for('logout') }}">Logout</a>
@@ -69,26 +77,26 @@
       <a href="{{ url_for('login') }}">Login</a>
     {% endif %}
     </div>
-
  
+    <!-- menu icon -->
     <span style="font-size:30px;cursor:pointer;position:fixed;z-index:20" onclick="openNav()">&#9776;</span>
-
 
     <div id="main">
       {% block body %}{% endblock %}
       {% block after_body %}{% endblock %}
     </div>
 
+    <!-- JavaScript functions to open and close the sidebar -->
     <script>
       function openNav() {
+        // set the sidebar width to 250px when opened 
         document.getElementById("mySidenav").style.width = "250px";
       }
 
       function closeNav() {
+        // set the sidebar width to 0 when closed
         document.getElementById("mySidenav").style.width = "0";
       }
-
-      
     </script>
   </body> 
 </html>

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}ThrillTribe Home{% endblock %}
 
-
 {% block body %}
 <div class="full-page-video">
   <video src="/static/videos/0805.mov" autoplay loop muted></video>
@@ -10,6 +9,7 @@
   </div>
 </div>
 
+
 <div class="main-content">
   <h1>Join the Tribe!</h1>
   <p>Unleash Your Adventurous Spirit! Whether you’re seeking adrenaline-pumping activities, </p>
@@ -17,16 +17,15 @@
     <p> unforgettable experiences around the world. Dive in and explore, create, and share the thrill! </p>
 
     <br><br>
-       <!-- Button from uiverse.io -->
-      <div class="voltage-button">
-        <form id="signup-form"></form>
-        <button>SIGN UP</button>
+    <!-- Button from uiverse.io -->
+    <div class="voltage-button">
+      <form id="signup-form" action="/signup" method="get">
+        <button type="submit">SIGN UP</button>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 234.6 61.3" preserveAspectRatio="none" xml:space="preserve">
-       
           <filter id="glow">
             <feGaussianBlur class="blur" result="coloredBlur" stdDeviation="2"></feGaussianBlur>
             <feTurbulence type="fractalNoise" baseFrequency="0.075" numOctaves="0.3" result="turbulence"></feTurbulence>
-        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="30" xChannelSelector="R" yChannelSelector="G" result="displace"></feDisplacementMap>
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="30" xChannelSelector="R" yChannelSelector="G" result="displace"></feDisplacementMap>
             <feMerge>
               <feMergeNode in="coloredBlur"></feMergeNode>
               <feMergeNode in="coloredBlur"></feMergeNode>

@@ -18,7 +18,7 @@
       "ActivityID": 3,
       "name": "Trial Biking",
       "overview": "Off-road biking over challenging terrain",
-      "categoryID": 3,
+      "categoryID": 4,
       "season": "All year"
     },
     {
@@ -90,6 +90,34 @@
       "overview": "Climbing ice formations such as frozen waterfalls or ice-covered rock",
       "categoryID": 5,
       "season": "Winter"
+    },
+    {
+      "ActivityID": 14,
+      "name": "Volcano Boarding",
+      "overview": "Riding down the slopes of a volcano on a board",
+      "categoryID": 4,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 15,
+      "name": "Highlining",
+      "overview": "Crossing a rope or line stretched between mountains or high points",
+      "categoryID": 4,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 16,
+      "name": "Mountaineering",
+      "overview": "Exploring and climbing mountains with specialized equipment",
+      "categoryID": 4,
+      "season": "All year"
+    },
+    {
+      "ActivityID": 17,
+      "name": "Whitewater Rafting",
+      "overview": "Dive into heart-pounding action as you navigate fierce rapids and tackle wild waters with your team.",
+      "categoryID": 2,
+      "season": "Summer"
     }
 ]
 

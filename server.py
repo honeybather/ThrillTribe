@@ -44,25 +44,26 @@ def show_activity(activity_id):
 def register_user():
     """Create a new user"""
 
-    # Retrieve username, email, and password from the form submitted by the user
+    # Retrieve info from the form submitted by the user
     username = request.form.get('username')
     email = request.form.get('email')
     password = request.form.get('password')
 
     # Check if username already exists
-    user = crud.get_user_by_username(username)
-    if user:
-        return jsonify({"status": "error", "message": "Username already exists"}), 400
+    if crud.get_user_by_username(username):
+        flash("Username already exists", "error")
+        return redirect(url_for('signup_page'))
 
     # Check if email already exists
-    user = crud.get_user_by_email(email)
-    if user:
-         return jsonify({"status": "error", "message": "Email already in use"}), 400
+    if crud.get_user_by_email(email):
+        flash("Email already in use", "error")
+        return redirect(url_for('signup_page'))
 
-    new_user = crud.create_user(username, email, password)
-    db.session.add(new_user)
+    # Create new user
+    crud.create_user(username, email, password)
     db.session.commit()
-    return jsonify({"status": "success", "message": "Account created"}), 201
+    flash("Account created successfully", "success")
+    return redirect(url_for('login_page'))
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -71,20 +72,37 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    # Retrieve user from the database based on username
+    # retrieve user from the database based on username
     user = crud.get_user_by_username(username)
 
     if not user or user.password != password:
-        return jsonify({"status": "error", "message": "Incorrect username or password"}), 401
+        flash("Incorrect username or password", "error")
+        return redirect(url_for('login_page'))
 
-    # Store user_id in the session for future requests
-    session['user_id'] = user.user_id  
-    return jsonify({"status": "success", "message": "Logged in"}), 200
+    # store user_id in the session for future requests
+    session['user_id'] = user.user_id
+    flash("Logged in successfully", "success")
+
+    return redirect(url_for('view_profile', user_id=user.user_id))
+
+@app.route("/login", methods=["GET"])
+def login_page():
+    """Render the login page"""
+    return render_template('login.html')
+
+@app.route("/signup", methods=["GET"])
+def signup_page():
+    """Render the sign-up page"""
+    return render_template('signup.html')
 
 @app.route("/logout")
 def logout():
+    """Log out the user and redirect to the login page"""
+
     session.pop('user_id', None)
-    return jsonify({"status": "success", "message": "Logged out"}), 200
+
+    flash("Logged out successfully", "success")
+    return redirect(url_for('login_page'))
 
 @app.route("/users/<int:user_id>", methods=["GET"])
 def view_profile(user_id):
@@ -156,7 +174,8 @@ def create_event():
     db.session.add(event)
     db.session.commit()
     
-    return jsonify({'success': True, 'message': 'Event created successfully!'}), 201
+    return redirect(url_for('all_events'))
+    #return jsonify({'success': True, 'message': 'Event created successfully!'}), 201
 
 @app.route("/join_event/<int:event_id>", methods=["POST"])
 def join_event(event_id):
@@ -245,7 +264,8 @@ def add_bucket_list():
 
     activity_id = int(request.form.get('activity_id'))
     crud.add_bucket_list_item(user_id, activity_id)
-    return jsonify({'success': True, 'message': 'Bucket list item added successfully!'}), 201
+    return redirect(url_for('view_profile', user_id=user_id))
+    #return jsonify({'success': True, 'message': 'Bucket list item added successfully!'}), 201
 
 @app.route("/bucket_list/complete/<int:bucket_list_id>", methods=["POST"])
 def complete_bucket_list_item(bucket_list_id):
@@ -254,7 +274,8 @@ def complete_bucket_list_item(bucket_list_id):
     user_id = session.get('user_id')  
 
     crud.mark_bucket_list_item_completed(bucket_list_id)
-    return jsonify({'success': True, 'message': 'Bucket list item completed!'}), 201
+    return redirect(url_for('view_profile', user_id=user_id))
+    #return jsonify({'success': True, 'message': 'Bucket list item completed!'}), 201
 
 @app.route("/bucket_list/delete/<int:bucket_list_id>", methods=["POST"])
 def delete_bucket_list_item(bucket_list_id):
@@ -263,7 +284,8 @@ def delete_bucket_list_item(bucket_list_id):
     user_id = session.get('user_id') 
 
     crud.delete_bucket_list_item(bucket_list_id)
-    return jsonify({'success': True, 'message': 'Bucket list item deleted.'}), 201
+    return redirect(url_for('view_profile', user_id=user_id))
+    #return jsonify({'success': True, 'message': 'Bucket list item deleted.'}), 201
 
 @app.route('/bucket_list/undo/<int:bucket_list_id>', methods=['POST'])
 def undo_bucket_list_completion(bucket_list_id):
