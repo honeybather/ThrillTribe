@@ -15,8 +15,7 @@ ThrillTribe is an interactive web application designed to help users discover, c
 
 - Backend 🛠️: Flask, SQLAlchemy
 - Frontend 🎨: HTML, CSS, JavaScript
-- Database 🗄️: SQLite (or any preferred SQL database)
-- APIs 🔗: Flask's `jsonify`
+- Database 🗄️: PostgreSQL
 
 ## Contact
 
