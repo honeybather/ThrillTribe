@@ -9,7 +9,6 @@ ThrillTribe is an interactive web application designed to help users discover, c
 - Discover Events 🏂: Find exciting activities and events happening near you or around the globe.
 - Create Events 🪂: Organize and share your own events with the community.
 - Bucket List Tracker 📝: Keep track of the events you want to attend and those you've completed.  
-- Trophy System 🏆: Earn trophies for achieving milestones and completing events.
 
 ## Technologies Used
 
