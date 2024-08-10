@@ -17,10 +17,6 @@ ThrillTribe is an interactive web application designed to help users discover, c
 - Frontend 🎨: HTML, CSS, JavaScript
 - Database 🗄️: PostgreSQL
 
-## Contact
-
-📫 For any inquiries, please reach out via email at rita.galzour@gmail.com
-
 ---
 
 ⭐️ Let's make adventure happen!
