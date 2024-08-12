@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <style>
-        body {
+        #outer {
             margin: 0;
             height: 100vh;
             font-family: Arial, sans-serif;
@@ -71,33 +71,10 @@
         .toggle-link:hover {
             text-decoration: underline;
         }
-
-        .flash-message {
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            color: #fff;
-            text-align: center;
-        }
-        .flash-message.success {
-            background-color: #28a745;
-        }
-        .flash-message.error {
-            background-color: #dc3545;
-        }
     </style>
 </head>
-<body>
+    <div id="outer">
     <div class="container">
-        {% with messages = get_flashed_messages(with_categories=True) %}
-            {% if messages %}
-                <div id="flash-messages">
-                    {% for category, message in messages %}
-                        <div class="flash-message {{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
         <h2>ThrillTribe</h2>
         <form method="POST" action="/signup">
             <input type="text" name="username" placeholder="Username" required>
@@ -107,5 +84,5 @@
         </form>
         <div class="toggle-link" onclick="window.location.href='/login';">Have an account? Log In</div>
     </div>
-</body>
+</div>
 {% endblock %}

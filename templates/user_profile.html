@@ -1,81 +1,234 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>{{ user.username }}'s Profile</h1> 
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('/static/images/3.png') no-repeat center center fixed; 
+    background-size: cover;
+}
 
+h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin-top: 20px;
+    color: #b6f99f;
+}
 
-<h2>My Joined Events:</h2>
-<ul>
-    {% if joined_events %}
-        {% for event in joined_events %}
-        <li>
-            <a href="/events/{{ event.event_id }}">{{ event.event.title }}</a>
-            <p>{{ event.event.description }}</p>
-            <p>Date: {{ event.event.date_time }}</p>
-        </li>
-        {% endfor %}
-    {% else %}
-        <p>No joined events.</p>
-    {% endif %}
-</ul>
+.events-section, .bucket-list-section {
+    max-width: 800px;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Transparent white */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-<h2>My Created Events:</h2>
-<ul>
-    {% if created_events %}
-        {% for event in created_events %}
-        <li>
-            <a href="/events/{{ event.event_id }}">{{ event.title }}</a>
-            <p>{{ event.description }}</p>
-            <p>Date: {{ event.date_time }}</p>
-        </li>
-        {% endfor %}
-    {% else %}
-        <p>No created events.</p>
-    {% endif %}
-</ul>
+h2 {
+    text-align: left;
+    margin-top: 20px;
+    color: black;
+}
 
+.event-item a {
+    margin: 0px;
+    font-size: 22px;
+    color: #007bff;
+}
 
-<h2>Bucket List</h2>
+#bucket-list-table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
 
-<!-- Form to add a new goal/experience -->
-<form action="/bucket_list/add" method="post">
-    <label for="activity_id">Take on a new challenge:</label>
-    <select name="activity_id" id="activity_id">
-        {% for activity in activities %}
-        <option value="{{ activity.activity_id }}">{{ activity.name }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Add to Bucket List</button>
-</form>
+#bucket-list-table th, #bucket-list-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
 
-<!-- Check if there are any bucket list items -->
-{% if bucket_list_items %}
-    <ul>
-        {% for item in bucket_list_items %}
-        <li>
+#bucket-list-table tr:nth-child{background-color: #f2f2f2;}
 
-                <input type="checkbox" id="bucket-list-{{ item.bucket_list_id }}"
-                {% if item.status == 'completed' %} checked {% endif %} disabled>
-                <label for="bucket-list-{{ item.bucket_list_id }}">{{ item.activity.name }}</label>
+#bucket-list-table tr:hover {background-color: #ddd;}
 
-            <form action="/bucket_list/complete/{{ item.bucket_list_id }}" method="post">
-                <button type="submit">Mark as Completed</button>
-            </form>
-            
-            {% if item.status == 'completed' %}
-            <form action="/bucket_list/undo/{{ item.bucket_list_id }}" method="post" style="display: inline;">
-                <button type="submit">Undo</button>
-            </form>
+#bucket-list-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+/* buttons styling */
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.complete-button, .undo-button, .delete-button {
+    cursor: pointer;
+}
+
+.styled-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.styled-label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.styled-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #04AA6D;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+    text-align: center; 
+    appearance: none; /* removes default dropdown arrow */
+}
+
+.styled-select:focus {
+    border-color: #007bff;
+    outline: none;
+    text-align-last: center; 
+}
+
+.styled-button {
+    background: linear-gradient(135deg, #04AA6D, #007bff);
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.styled-button:hover {
+    background: linear-gradient(135deg, #007bff, #04AA6D);
+    transform: translateY(-2px);
+}
+
+.styled-button:active {
+    transform: translateY(1px);
+}
+</style>
+
+<div class="profile-container">
+    <h1 class="profile-title">{{ user.username }}'s Profile</h1>
+    <br><br><br>
+
+    <section class="events-section">
+        <h2>My Joined Events:</h2>
+        <ul class="events-list">
+            {% if joined_events %}
+                {% for event in joined_events %}
+                <li class="event-item">
+                    <a href="/events/{{ event.event_id }}" class="event-title">{{ event.event.title }}</a>
+                    <p class="event-description">{{ event.event.description }}</p>
+                    <p class="event-date">Date: {{ event.event.date_time }}</p>
+                </li>
+                {% endfor %}
+            {% else %}
+                <p>No joined events.</p>
             {% endif %}
-            
-            <form action="/bucket_list/delete/{{ item.bucket_list_id }}" method="post">
-                <button type="submit">Delete</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Bucket list is empty.</p>
-{% endif %}
+        </ul>
+    </section>
 
+    <section class="events-section">
+        <h2>My Created Events:</h2>
+        <ul class="events-list">
+            {% if created_events %}
+                {% for event in created_events %}
+                <li class="event-item">
+                    <a href="/events/{{ event.event_id }}" class="event-title">{{ event.title }}</a>
+                    <p class="event-description">{{ event.description }}</p>
+                    <p class="event-date">Date: {{ event.date_time }}</p>
+                </li>
+                {% endfor %}
+            {% else %}
+                <p>No created events.</p>
+            {% endif %}
+        </ul>
+    </section>
+
+    <section class="bucket-list-section">
+        <h2>Bucket List</h2>
+
+    <!-- form to add a new goal/experience -->
+    <form action="/bucket_list/add" method="post" class="bucket-list-form styled-form">
+        <label for="activity_id" class="styled-label">Take on a New Challenge:</label> <br>
+        <select name="activity_id" id="activity_id" class="styled-select">
+            {% for activity in activities %}
+            <option value="{{ activity.activity_id }}">{{ activity.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="styled-button">Add to Bucket List</button>
+    </form>
+
+        <!-- display bucket list items in a fancy table -->
+        {% if bucket_list_items %}
+        <table id="bucket-list-table">  
+            <thead>
+                <tr>
+                    <th>Activity</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in bucket_list_items %}
+                <tr>
+                    <td>{{ item.activity.name }}</td>
+                    <td>
+                        {% if item.status == 'completed' %}
+                            Completed!
+                        {% else %}
+                            ...
+                        {% endif %}
+                    </td>
+                    <td class="action-buttons">
+                        <form action="/bucket_list/complete/{{ item.bucket_list_id }}" method="post" class="action-form">
+                            <button type="submit" class="complete-button"><i class="fa fa-check-square-o"></i></button>
+                        </form>
+
+                        {% if item.status == 'completed' %}
+                        <form action="/bucket_list/undo/{{ item.bucket_list_id }}" method="post" class="action-form">
+                            <button type="submit" class="undo-button"><i class="fa fa-undo"></i></button>
+                        </form>
+                        {% endif %}
+
+                        <form action="/bucket_list/delete/{{ item.bucket_list_id }}" method="post" class="action-form">
+                            <button type="submit" class="delete-button"><i class="fa fa-trash-o"></i></button> 
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>Bucket list is empty.</p>
+        {% endif %}
+    </section>
+</div>
 {% endblock %}

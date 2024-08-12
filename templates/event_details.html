@@ -1,30 +1,118 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>{{ event.title }}</h1>
+<style>
 
-<p><strong>Description:</strong> {{ event.description }}</p>
-<p><strong>Date:</strong> {{ event.date_time }}</p>
-<p><strong>Location:</strong> {{ event.location }}</p>
-<p><strong>Cost:</strong> ${{ event.cost }}</p>
-    
-<h3>Participants:</h3>
-<ul>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      color: #333; 
+      margin: 0;
+      padding: 20px;
+    }
+  
+    h1 {
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+  
+    strong {
+      color: #333; 
+    }
+  
+    .event-details {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+  
+    .event-details h3 {
+      border-bottom: 3px solid #007bff; 
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      color: #333; 
+    }
+  
+    .event-details ul {
+      list-style-type: none;
+      padding: 0;
+    }
+  
+    .event-details ul li {
+      background: #e9ecef;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 8px;
+      color: #333; 
+    }
+  
+    .event-details button {
+      padding: 10px 15px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+  
+    .event-details button:hover {
+      background-color: #218838;
+    }
+  
+    .event-details a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: text-decoration 0.3s ease;
+    }
+  
+    .event-details a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+<div class="event-details">
+  <h1>{{ event.title }}</h1>
+
+  <p><strong>Description:</strong> {{ event.description }}</p>
+  <p><strong>Date:</strong> {{ event.date_time }}</p>
+  <p><strong>Location:</strong> {{ event.location }}</p>
+  <p><strong>Cost:</strong> ${{ event.cost }}</p>
+
+  <h3>Participants:</h3>
+  <ul>
     {% for participant in event.event_participants %}
-        <li>{{ participant.user.username }}</li>
+      <li>{{ participant.user.username }}</li>
     {% else %}
-        <li>No participants yet.</li>
+      <li>No participants yet.</li>
     {% endfor %}
-</ul>
+  </ul>
 
-{% if session.get('user_id') == event.user_id %}
+  {% if session.get('user_id') == event.user_id %}
     <p><strong>This is your event!</strong></p>
-{% else %}
-    <button onclick="joinEvent('{{ event.event_id }}')">Join</button> 
-{% endif %}  <br><br> 
+  {% else %}
+    <button onclick="joinEvent('{{ event.event_id }}')">Join</button>
+  {% endif %}  <br><br>
 
-{% if session.get('user_id') %}
+  {% if session.get('user_id') %}
     <a href="{{ url_for('view_profile', user_id=session.get('user_id')) }}">Back to Profile</a>
-{% endif %}
+    <br>
+    <a href="{{ url_for('all_events', user_id=session.get('user_id')) }}">Check out all events</a>
+    <br>
+    <a href="{{ url_for('all_activities', user_id=session.get('user_id')) }}">See all activites</a>
+  {% endif %}
+</div>
+
 <script src="/static/join_event.js"></script>
 {% endblock %}

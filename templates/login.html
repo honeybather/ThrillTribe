@@ -7,54 +7,54 @@
     <title>Login</title>
 
     <style>
-        body {
-          margin: 0; /* removes default margin */
-          height: 100vh; /* makes the body height equal to the viewport height */
+        #outer {
+          margin: 0; 
+          height: 100vh; 
           font-family: Arial, sans-serif; 
-          background: url('/static/images/signup.jpg') no-repeat center center fixed; 
+          background: url('/static/images/login.jpeg') no-repeat center center fixed; 
           background-size: cover;
-          display: flex; /* uses flexbox for layout */
-          justify-content: center; /* centers content horizontally */
-          align-items: center; /* centers content vertically */
+          display: flex;
+          justify-content: center; 
+          align-items: center; 
         }
       
         .container {
           width: 360px; 
-          padding: 20px; /* adds padding inside the container */
+          padding: 20px; 
           background-color: #fff; 
           border-radius: 8px; 
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* adds a subtle shadow around the container */
-          box-sizing: border-box; /* includes padding and border in the element's total width and height */
+          box-sizing: border-box; 
         }
       
         h2 {
           text-align: center; 
           color: #333; 
-          margin-bottom: 20px; /* adds margin below the heading */
+          margin-bottom: 20px; 
         }
       
         form {
           display: flex; 
           flex-direction: column; /* stacks child elements vertically */
-          gap: 15px; /* adds space between child elements */
+          gap: 15px; 
         }
       
         input[type="text"], input[type="password"] {
           width: 100%; 
           padding: 10px; 
-          border: 1px solid #ddd; /* adds a light border around the input fields */
+          border: 1px solid #ddd; 
           border-radius: 4px;
           box-sizing: border-box; 
         }
       
         button {
           padding: 10px; 
-          border: none; /* removes default border */
-          border-radius: 4px; /* rounds the corners of the button */
+          border: none; 
+          border-radius: 4px; 
           background-color: #007bff; 
           color: #fff;
           font-size: 16px;
-          cursor: pointer; /* changes cursor to pointer on hover */
+          cursor: pointer; 
           box-sizing: border-box; 
         }
       
@@ -64,43 +64,19 @@
       
         .toggle-link {
           text-align: center;
-          margin-top: 15px; /* adds margin on top */
+          margin-top: 15px; 
           color: #007bff; 
           cursor: pointer; 
         }
       
         .toggle-link:hover {
-          text-decoration: underline; /* adds underline on hover */
-        }
-      
-        .flash-message {
-          padding: 10px; /* adds padding inside the flash message */
-          margin-bottom: 20px; /* adds margin below the flash message */
-          border-radius: 4px; 
-          color: #fff; 
-          text-align: center;
-        }
-      
-        .flash-message.success {
-          background-color: #28a745; 
-        }
-      
-        .flash-message.error {
-          background-color: #dc3545; 
+          text-decoration: underline; 
         }
       </style>
 </head>
-<body>
+  <div id="outer">
     <div class="container">
-        {% with messages = get_flashed_messages(with_categories=True) %}
-            {% if messages %}
-                <div id="flash-messages">
-                    {% for category, message in messages %}
-                        <div class="flash-message {{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+
         <h2>ThrillTribe</h2>
         <form method="POST" action="/login">
             <input type="text" name="username" placeholder="Username" required>
@@ -109,5 +85,5 @@
         </form>
         <div class="toggle-link" onclick="window.location.href='/signup';">Don't have an account? Sign Up</div>
     </div>
-</body>
+  </div>
 {% endblock %}

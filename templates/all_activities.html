@@ -3,34 +3,127 @@
 {% block title %}All Activities{% endblock %}
 
 {% block body %}
-  <h1>All Activities</h1>
+<style>
 
-  <!-- Filter form -->
-  <form id="filter-form">
-    <label for="category_id">Filter by Category:</label>
-    <select id="category_id" name="category_id">
-      <option value="">Select Category</option>
-      {% for category in categories %}
-        <option value="{{ category.category_id }}">{{ category.description }}</option>
-      {% endfor %}
-    </select><br><br>
+  h1 {
+    color: black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    margin: 30px 0;
+    font-size: 29px;
+  }
 
-    <button type="submit">Filter Activities</button>
+  #activity-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px; 
+    padding: 0 6px;
+  }
 
-    <button style="font-size:13px"> <i class="fa fa-undo"></i></button>
-    
-  </form>
-    
-  <ul>
-    <ul id="activity-container">
-    {% for activity in activities %}
-      <li>
-        <a href="/activities/{{ activity.activity_id }}">
-          {{ activity.name }}
-        </a>
-      </li>
+  .gallery {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    margin-bottom: 20px; 
+  }
+
+  .gallery:hover {
+    border-color: #777;
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .desc {
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+  }
+
+  /* Responsive adjustments */
+  @media only screen and (max-width: 700px) {
+    #activity-container {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    #activity-container {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  #filter-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9e79f; 
+    border-radius: 5px;
+    border: 1px solid #f1c40f; 
+  }
+
+  #filter-form h3 {
+    margin: 0 10px 0 0;
+    font-size: 16px; 
+    font-family: Arial, Helvetica, sans-serif; 
+    font-weight: normal; 
+    color: #333; 
+  }
+
+  #filter-form select, #filter-form button {
+    padding: 8px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  } 
+
+  #filter-form button {
+    background-color: #f1c40f; 
+    color: black;
+    border: none;
+    cursor: pointer;
+  }
+
+  #filter-form button:hover {
+    background-color: #f39c12; 
+  }  
+</style>
+
+<h1>All Activities</h1>
+
+<form id="filter-form">
+  <h3>Filter by Category:</h3>
+  <select id="category_id" name="category_id">
+    <option value="">Select Category</option>
+    {% for category in categories %}
+      <option value="{{ category.category_id }}">{{ category.description }}</option>
     {% endfor %}
-  </ul>
-<script src="{{ url_for('static', filename='filter_activities.js') }}"></script>
-  {% endblock %}
+  </select>
+  <button type="submit">Filter Activities</button>
+  <button style="font-size:13px"><i class="fa fa-undo"></i></button>
+</form>
 
+<div id="activity-container">
+  {% for activity in activities %}
+    <div class="gallery">
+      <a href="/activities/{{ activity.activity_id }}">
+        <img src="{{ activity.imgURL }}" alt="{{ activity.name }}">
+      </a>
+      <div class="desc">{{ activity.name }}</div>
+    </div>
+  {% endfor %}
+</div>
+
+<script src="{{ url_for('static', filename='filter_activities.js') }}"></script>
+{% endblock %}

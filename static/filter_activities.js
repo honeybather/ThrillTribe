@@ -3,13 +3,11 @@ const activityFilter = document.getElementById('category_id');
 const applyFiltersButton = document.querySelector('#filter-form button');
 const activitiesContainer = document.getElementById('activity-container');
 
-// Apply filters on button click
 applyFiltersButton.addEventListener('click', (event) => {
   event.preventDefault();
   const categoryId = activityFilter.value;
   console.log('Selected Category ID:', categoryId);
 
-  // Make AJAX request to fetch filtered activities
   fetch('/filter_activities', {
     method: 'POST',
     headers: {
@@ -18,23 +16,24 @@ applyFiltersButton.addEventListener('click', (event) => {
     body: JSON.stringify({ category_id: categoryId })
   })
   .then(response => {
-    console.log('Response status:', response.status); // Log status
+    console.log('Response status:', response.status); 
     return response.json();
   })
   .then(activities => {
     console.log('Filtered activities:', activities);
-    // Check if activitiesContainer exists before clearing
+    // check if activitiesContainer exists before clearing
     if (activitiesContainer) {
-      // Clear existing activities
+      // clear existing activities
       activitiesContainer.innerHTML = '';
       
-      // Display filtered activities with links
+      // display filtered activities with links and images
       activities.forEach(activity => { 
-        let activityDiv = document.createElement('li');
-        activityDiv.className = 'activity'; 
+        let activityDiv = document.createElement('div');
+        activityDiv.className = 'gallery'; 
         activityDiv.innerHTML = `
           <a href="/activities/${activity.id}">
-            <h2>${activity.name}</h2>
+            <img src="${activity.imgURL}" alt="${activity.name}">
+            <div class="desc">${activity.name}</div>
           </a>
         `;
         activitiesContainer.appendChild(activityDiv);

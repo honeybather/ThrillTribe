@@ -33,9 +33,9 @@ def get_activity_by_id(activity_id):
 
 def get_user_by_email(email):
     """Return a user by email"""
-    # Look for a user in the User table whose email matches the given email.
+    # look for a user in the User table whose email matches the given email.
     # filter adds this condition to the query.
-    # User.email == email checks if the email field matches the given email.
+    # user.email == email checks if the email field matches the given email.
     # .first() gets the first matching user or returns None if no match is found.
     return User.query.filter(User.email == email).first()
 
@@ -72,23 +72,23 @@ def create_event(activity_id, title, description, date_time, location, skill_lev
 
 def get_events_by_activity(activity_id):
     """Return events filtered by activity ID."""
-    # Filter events where the activity_id matches the given activity_id
-    # Event.activity_id == activity_id checks if the activity_id field matches the provided ID
+    # filter events where the activity_id matches the given activity_id
+    # event.activity_id == activity_id checks if the activity_id field matches the provided ID
     # .all() gets the all matching event or returns None if no match is found
     return Event.query.filter(Event.activity_id == activity_id).all()
 
 def add_user_to_event(user_id, event_id):
     """ Add user to event participants"""
     
-    # Retrieve the event and user from the database
+    # retrieve the event and user from the database
     event = get_event_by_id(event_id)
     user = get_user_by_id(user_id)
     
     if event and user:
-        # Check if the user is already participating in the event
+        # check if the user is already participating in the event
         existing_participation = EventParticipant.query.filter_by(user_id=user_id, event_id=event_id).first()
         if not existing_participation:
-            # Add the user to the event's participants
+            # add the user to the event's participants
             new_participation = EventParticipant(user_id=user_id, event_id=event_id, status='Joined', dates_created=datetime.now())
             db.session.add(new_participation)
             db.session.commit()

@@ -24,42 +24,90 @@ def all_activities():
     """View all activities"""
     categories = crud.get_all_categories()
     activities = crud.get_activities()
+
+    # map of activity names to image filenames
+    image_map = {
+        "Wingsuit Flying": "Wingsuit.jpg",
+        "Wakeboarding": "Wakeboarding.jpg",
+        "Trial Biking": "Trial Biking.jpg",
+        "Surfing": "Surfing.jpg",
+        "Snowboarding": "Snowboarding.jpg",
+        "Skydiving": "Skydiving.jpg",
+        "Paragliding": "Paragliding.jpg",
+        "MTB": "MTB.jpg",
+        "Drifting": "Drifting.jpg",
+        "Climbing": "Climbing.jpg",
+        "Canoeing": "Canoeing.jpg",
+        "High Diving": "High Diving.jpg",
+        "Ice Climbing": "Ice Climbing.jpg",
+        "Volcano Boarding": "Volcano.jpg",
+        "Highlining": "Highlining.jpg",
+        "Mountaineering": "Mountaineering.jpg",
+        "Whitewater Rafting": "Whitewater.jpg",
+        "Downhill Longboarding": "Downhill Longboarding.jpg"
+    }
+    
+    # iterate over each activity and add an imageURL attribute
+    for activity in activities:
+        activity.imgURL = f"/static/images/activities/{image_map.get(activity.name)}"
+        
     return render_template("all_activities.html", categories=categories, activities=activities)
 
-@app.route("/activities/<activity_id>")
+@app.route("/activities/<int:activity_id>")
 def show_activity(activity_id):
     """Show details on a particular activity."""
-    # fetch activity details 
+    
+    image_map = {
+        "Wingsuit Flying": "Wingsuit.jpg",
+        "Wakeboarding": "Wakeboarding.jpg",
+        "Trial Biking": "Trial Biking.jpg",
+        "Surfing": "Surfing.jpg",
+        "Snowboarding": "Snowboarding.jpg",
+        "Skydiving": "Skydiving.jpg",
+        "Paragliding": "Paragliding.jpg",
+        "MTB": "MTB.jpg",
+        "Drifting": "Drifting.jpg",
+        "Climbing": "Climbing.jpg",
+        "Canoeing": "Canoeing.jpg",
+        "High Diving": "High Diving.jpg",
+        "Ice Climbing": "Ice Climbing.jpg",
+        "Volcano Boarding": "Volcano.jpg",
+        "Highlining": "Highlining.jpg",
+        "Mountaineering": "Mountaineering.jpg",
+        "Whitewater Rafting": "Whitewater.jpg",
+        "Downhill Longboarding": "Downhill Longboarding.jpg"
+    }
+    
+    # fetch activity details
     details = crud.get_activity_by_id(activity_id)
+    
     # fetch all events for the activity
     events = crud.get_events_by_activity(activity_id)
-    return render_template("activity_details.html", activity=details, events=events)# variable in the template, second is that variable defined 
-
-
-    """Show details on a selected user"""
-    user = crud.get_user_by_id(user_id)
-    return render_template("user_list.html", user=user)
+    
+    # image URL based on activity name
+    details.imgURL = f"/static/images/activities/{image_map.get(details.name)}"
+    
+    return render_template("activity_details.html", activity=details, events=events)
 
 @app.route("/signup", methods=["POST"])
 def register_user():
     """Create a new user"""
 
-    # Retrieve info from the form submitted by the user
+    # retrieve info from the form 
     username = request.form.get('username')
     email = request.form.get('email')
     password = request.form.get('password')
 
-    # Check if username already exists
+    # check if username already exists
     if crud.get_user_by_username(username):
         flash("Username already exists", "error")
         return redirect(url_for('signup_page'))
 
-    # Check if email already exists
     if crud.get_user_by_email(email):
         flash("Email already in use", "error")
         return redirect(url_for('signup_page'))
 
-    # Create new user
+    # create new user
     crud.create_user(username, email, password)
     db.session.commit()
     flash("Account created successfully", "success")
@@ -131,16 +179,23 @@ def all_events():
     """View all events created by all users"""
 
     user_id = session.get('user_id')
-    activities = crud.get_activities()  # Fetch all activities for the filter dropdown
-    all_events = crud.get_events()  # Fetch all all events
+    activities = crud.get_activities()  # fetch all activities/events for the filter dropdown
+    all_events = crud.get_events()  
 
-    # Check if user is logged in
     if user_id:
         user = crud.get_user_by_id(user_id)
         if not user:
             return jsonify({"status": "error", "message": "User not found"}), 401
 
     return render_template("all_events.html", activities=activities, events=all_events, user_id=user_id)
+
+@app.route("/events/<int:event_id>")
+def show_event(event_id):
+    """Show details for a specific event."""
+    event = crud.get_event_by_id(event_id)
+    participants = crud.get_event_participants(event_id)
+    
+    return render_template("event_details.html", event=event, participants=participants)
 
 @app.route("/create_event")
 def show_event_form():
@@ -175,7 +230,7 @@ def create_event():
     db.session.commit()
     
     return redirect(url_for('all_events'))
-    #return jsonify({'success': True, 'message': 'Event created successfully!'}), 201
+    return jsonify({'success': True, 'message': 'Event created successfully!'}), 201
 
 @app.route("/join_event/<int:event_id>", methods=["POST"])
 def join_event(event_id):
@@ -183,19 +238,19 @@ def join_event(event_id):
     
     user_id = session.get('user_id')
 
-    # Ensure the event exists
+    # ensure the event exists
     event = crud.get_event_by_id(event_id)
 
     if not event:
         return jsonify({'success': False, 'message': 'Event not found.'}), 404
 
-    # Check if the user is already participating
+    # check if the user is already participating
     existing_participation = crud.is_user_participating(user_id, event_id)
 
     if existing_participation:
         return jsonify({'success': False, 'message': 'You are already participating in this event.'}), 400
 
-    # Add user to the event
+    # add user to the event
     participation = crud.create_event_participation(event_id=event_id, user_id=user_id)
     db.session.add(participation)
     db.session.commit()
@@ -206,10 +261,10 @@ def join_event(event_id):
 def filter_events():
     """Display Filtered Events"""
 
-    # Get parameters from the JSON data
+    # get parameters from the JSON data
     activity_id = request.json.get('activity_id')
 
-    # Filter events based on activity_id
+    # filter events based on activity_id
     if activity_id:
         events = crud.get_events_by_activity(activity_id)
     else:
@@ -232,25 +287,45 @@ def filter_events():
 @app.route("/filter_activities", methods=["POST"])
 def filter_activities():
     """Display Filtered Activities"""
-
-    # Get parameters from the JSON data
+    
     category_id = request.json.get('category_id')
     print('Category ID:', category_id)
 
-    # Filter activities based on category_id
     if category_id:
         activities = crud.get_activities_by_category(category_id)
     else:
         activities = crud.get_activities()
 
+    image_map = {
+        "Wingsuit Flying": "Wingsuit.jpg",
+        "Wakeboarding": "Wakeboarding.jpg",
+        "Trial Biking": "Trial Biking.jpg",
+        "Surfing": "Surfing.jpg",
+        "Snowboarding": "Snowboarding.jpg",
+        "Skydiving": "Skydiving.jpg",
+        "Paragliding": "Paragliding.jpg",
+        "MTB": "MTB.jpg",
+        "Drifting": "Drifting.jpg",
+        "Climbing": "Climbing.jpg",
+        "Canoeing": "Canoeing.jpg",
+        "High Diving": "High Diving.jpg",
+        "Ice Climbing": "Ice Climbing.jpg",
+        "Volcano Boarding": "Volcano.jpg",
+        "Highlining": "Highlining.jpg",
+        "Mountaineering": "Mountaineering.jpg",
+        "Whitewater Rafting": "Whitewater.jpg",
+        "Downhill Longboarding": "Downhill Longboarding.jpg"
+    }
+
     activities_list = []
     for activity in activities:
-        # The key in the dictionary is what is read by JavaScript,
-        # the value in the dictionary is the column in the activities table
+        # add imageURL to each activity
+        img_url = f"/static/images/activities/{image_map.get(activity.name)}"
         filtered_activity = {
             'id': activity.activity_id,
             'name': activity.name,
-            'overview': activity.overview, 
+            'overview': activity.overview,
+            'imgURL': img_url 
         }
         activities_list.append(filtered_activity)
 
@@ -265,7 +340,7 @@ def add_bucket_list():
     activity_id = int(request.form.get('activity_id'))
     crud.add_bucket_list_item(user_id, activity_id)
     return redirect(url_for('view_profile', user_id=user_id))
-    #return jsonify({'success': True, 'message': 'Bucket list item added successfully!'}), 201
+    return jsonify({'success': True, 'message': 'Bucket list item added successfully!'}), 201
 
 @app.route("/bucket_list/complete/<int:bucket_list_id>", methods=["POST"])
 def complete_bucket_list_item(bucket_list_id):
@@ -275,7 +350,7 @@ def complete_bucket_list_item(bucket_list_id):
 
     crud.mark_bucket_list_item_completed(bucket_list_id)
     return redirect(url_for('view_profile', user_id=user_id))
-    #return jsonify({'success': True, 'message': 'Bucket list item completed!'}), 201
+    return jsonify({'success': True, 'message': 'Bucket list item completed!'}), 201
 
 @app.route("/bucket_list/delete/<int:bucket_list_id>", methods=["POST"])
 def delete_bucket_list_item(bucket_list_id):
@@ -285,7 +360,7 @@ def delete_bucket_list_item(bucket_list_id):
 
     crud.delete_bucket_list_item(bucket_list_id)
     return redirect(url_for('view_profile', user_id=user_id))
-    #return jsonify({'success': True, 'message': 'Bucket list item deleted.'}), 201
+    return jsonify({'success': True, 'message': 'Bucket list item deleted.'}), 201
 
 @app.route('/bucket_list/undo/<int:bucket_list_id>', methods=['POST'])
 def undo_bucket_list_completion(bucket_list_id):
@@ -294,14 +369,6 @@ def undo_bucket_list_completion(bucket_list_id):
         bucket_list_item.status = 'pending'
         db.session.commit()
     return redirect(url_for('view_profile', user_id=bucket_list_item.user_id))
-
-@app.route("/events/<int:event_id>")
-def show_event(event_id):
-    """Show details for a specific event."""
-    event = crud.get_event_by_id(event_id)
-    participants = crud.get_event_participants(event_id)
-    
-    return render_template("event_details.html", event=event, participants=participants)
 
 if __name__ == "__main__":
     connect_to_db(app) # Connect to the database using the app instance

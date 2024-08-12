@@ -1,123 +1,129 @@
 [
-    {
-      "ActivityID": 1,
-      "name": "Wingsuit Flying",
-      "overview": "Glide through the air in a specialized suit.", 
-      "categoryID": 1,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 2,
-      "name": "Wakeboarding",
-      "overview": "Riding a board while being towed behind a motorboat",
-      "categoryID": 2,
-      "season": "Summer"
-      
-    },
-    {
-      "ActivityID": 3,
-      "name": "Trial Biking",
-      "overview": "Off-road biking over challenging terrain",
-      "categoryID": 4,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 4,
-      "name": "Surfing",
-      "overview": "Riding waves on a surfboard",
-      "categoryID": 2,
-      "season": "Summer"
-    },
-    {
-      "ActivityID": 5,
-      "name": "Snowboarding",
-      "overview": "Descending a snow-covered slope while standing on a single board",
-      "categoryID": 5,
-      "season": "Winter"
-    },
-    {
-      "ActivityID": 6,
-      "name": "Skydiving",
-      "overview": "Jumping from an aircraft with a parachute",
-      "categoryID": 1,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 7,
-      "name": "Paragliding",
-      "overview": "Gliding through the air using a parachute-like canopy",
-      "categoryID": 1,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 8,
-      "name": "MTB",
-      "overview": "Riding bicycles off-road, tackling trails and rough terrain",
-      "categoryID": 4,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 9,
-      "name": "Drifting",
-      "overview": "driving technique where the driver intentionally oversteers",
-      "categoryID": 3,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 10,
-      "name": "Climbing",
-      "overview": "Ascending rock faces or indoor climbing walls.",
-      "categoryID": 4,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 11,
-      "name": "Canoeing",
-      "overview": "Propelling a canoe through water using paddles",
-      "categoryID": 2,
-      "season": "Summer"
-    },
-    {
-      "ActivityID": 12,
-      "name": "High Diving",
-      "overview": "Diving from significant heights into water",
-      "categoryID": 2,
-      "season": "Summer"
-    },
-    {
-      "ActivityID": 13,
-      "name": "Ice Climbing",
-      "overview": "Climbing ice formations such as frozen waterfalls or ice-covered rock",
-      "categoryID": 5,
-      "season": "Winter"
-    },
-    {
-      "ActivityID": 14,
-      "name": "Volcano Boarding",
-      "overview": "Riding down the slopes of a volcano on a board",
-      "categoryID": 4,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 15,
-      "name": "Highlining",
-      "overview": "Crossing a rope or line stretched between mountains or high points",
-      "categoryID": 4,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 16,
-      "name": "Mountaineering",
-      "overview": "Exploring and climbing mountains with specialized equipment",
-      "categoryID": 4,
-      "season": "All year"
-    },
-    {
-      "ActivityID": 17,
-      "name": "Whitewater Rafting",
-      "overview": "Dive into heart-pounding action as you navigate fierce rapids and tackle wild waters with your team.",
-      "categoryID": 2,
-      "season": "Summer"
-    }
+  {
+    "ActivityID": 1,
+    "name": "Wingsuit Flying",
+    "overview": "The ultimate thrill-seeker’s adventure—soaring through the sky in a specially designed suit that transforms your body into a human airfoil. It’s like being a bird, diving and gliding through the air with unmatched freedom, as you carve through the sky at breathtaking speeds, just inches away from cliffs and treetops. Wingsuit flying combines the adrenaline of skydiving with the precision of flight, offering an experience that’s as close to true flight as you can get.",
+    "categoryID": 1,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 2,
+    "name": "Wakeboarding",
+    "overview": "Exhilarating water sport where you ride a board over the surface of the water, pulled by a boat at high speeds. Combining elements of surfing, snowboarding, and waterskiing, it’s all about carving through the waves, performing jumps, flips, and tricks. The rush of the wind and the spray of the water make wakeboarding a thrilling experience, whether you’re gliding smoothly across a glassy lake or launching off wakes to catch some air.",
+    "categoryID": 2,
+    "season": "Summer"
+  },
+  {
+    "ActivityID": 3,
+    "name": "Trial Biking",
+    "overview": "High-skill, precision-based sport where riders navigate through challenging, obstacle-filled courses on specially designed bikes. It’s all about balance, control, and finesse as you hop, twist, and maneuver your way over rocks, logs, and other tricky terrains without ever putting your feet on the ground. Trial biking pushes the limits of what’s possible on two wheels, turning everyday obstacles into an adrenaline-pumping playground where every move counts.",
+    "categoryID": 4,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 4,
+    "name": "Surfing",
+    "overview": "The art of riding waves on a board, blending skill, balance, and a deep connection with the ocean. It’s a sport that harnesses the raw power of nature, allowing you to glide across the water’s surface, carving turns and performing tricks as you ride the energy of the waves. Whether you’re catching a mellow swell at sunrise or charging down a massive wave, surfing offers an unparalleled sense of freedom and exhilaration, with every session bringing a new adventure.",
+    "categoryID": 2,
+    "season": "Summer"
+  },
+  {
+    "ActivityID": 5,
+    "name": "Snowboarding",
+    "overview": "Adrenaline-fueled sport that combines style and technique as you carve down snow-covered slopes on a single board. With its roots in surfing and skateboarding, snowboarding allows riders to glide, twist, and jump through fresh powder and challenging terrain. From mastering tricks in the terrain park to navigating off-piste adventures, snowboarding delivers a thrilling blend of speed, agility, and pure winter fun, making every descent an exhilarating experience.",
+    "categoryID": 5,
+    "season": "Winter"
+  },
+  {
+    "ActivityID": 6,
+    "name": "Skydiving",
+    "overview": "The ultimate leap into adventure, where you jump out of an aircraft and freefall through the sky before opening your parachute for a graceful descent. It combines the thrill of high-altitude freefall with the serenity of a parachute glide, offering breathtaking views and an unmatched rush of adrenaline. Whether you’re jumping solo or with a tandem instructor, skydiving delivers an unforgettable experience of weightlessness and exhilaration, transforming the sky into your playground.",
+    "categoryID": 1,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 7,
+    "name": "Paragliding",
+    "overview": "Paragliding offers a serene yet exhilarating way to soar through the air, harnessing the wind to glide smoothly above landscapes. With a lightweight, inflatable wing, you launch from a hillside or mountain and drift effortlessly, enjoying panoramic views and the sensation of true flight. It combines the thrill of flying with the tranquility of floating, making paragliding a unique blend of adventure and peacefulness as you navigate the skies and feel the freedom of the open air.",
+    "categoryID": 1,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 8,
+    "name": "MTB",
+    "overview": "Embark on an exhilarating off-road adventure as you navigate rugged trails and challenging terrains on a mountain bike. Experience the thrill of tackling natural obstacles and diverse landscapes year-round, pushing your biking skills to the limit as you conquer varied and unpredictable trails.",
+    "categoryID": 4,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 9,
+    "name": "Drifting",
+    "overview": "Master the art of controlled skidding in drifting, where you intentionally oversteer to slide through corners with precision. Feel the adrenaline of high-speed maneuvering on any track, perfecting the technique of controlled slides and thrilling drifts throughout the year.",
+    "categoryID": 3,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 10,
+    "name": "Climbing",
+    "overview": "Scale natural rock faces or indoor climbing walls with strength and strategy. Whether it’s a steep outdoor cliff or a challenging indoor route, climbing tests your endurance and skill as you ascend vertical challenges year-round, offering both physical and mental stimulation.",
+    "categoryID": 4,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 11,
+    "name": "Canoeing",
+    "overview": "Glide across serene waters or tackle flowing rivers in a canoe, propelling yourself with skillful paddling. Canoeing is a refreshing summer activity that connects you with nature’s waterways, allowing you to enjoy peaceful paddles or exhilarating river rapids.",
+    "categoryID": 2,
+    "season": "Summer"
+  },
+  {
+    "ActivityID": 12,
+    "name": "High Diving",
+    "overview": "Experience the thrill of leaping from great heights into the water below, combining precision and courage in this dramatic summer sport. High diving turns the leap into an art form, where each jump demands both daring and grace, offering an electrifying blend of excitement and skill.",
+    "categoryID": 2,
+    "season": "Summer"
+  },
+  {
+    "ActivityID": 13,
+    "name": "Ice Climbing",
+    "overview": "Conquer frozen waterfalls and icy rock faces with specialized gear in this extreme winter sport. Ice climbing transforms frozen landscapes into a vertical playground, where every ascent is a test of strength and technique against nature’s frozen challenges.",
+    "categoryID": 5,
+    "season": "Winter"
+  },
+  {
+    "ActivityID": 14,
+    "name": "Volcano Boarding",
+    "overview": "Race down the steep, volcanic slopes on a board for an adrenaline-packed descent. Volcano boarding offers a unique thrill, combining the excitement of speed with the awe-inspiring scenery of an active volcano, making every ride a breathtaking adventure.",
+    "categoryID": 4,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 15,
+    "name": "Highlining",
+    "overview": "Traverse a tightrope or webbing stretched between high points with balance and focus. Highlining offers a unique combination of nerve and skill, as you walk between towering heights, providing an unparalleled view and an exhilarating sense of accomplishment.",
+    "categoryID": 4,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 16,
+    "name": "Mountaineering",
+    "overview": "Embark on epic climbs and explorations of mountain ranges using specialized equipment and techniques. Mountaineering combines physical endurance with technical skill, offering a year-round adventure through some of nature’s most majestic terrains, from snow-capped peaks to rocky ridges.",
+    "categoryID": 4,
+    "season": "All year"
+  },
+  {
+    "ActivityID": 17,
+    "name": "Whitewater Rafting",
+    "overview": "Conquer powerful rapids and turbulent waters with your team in this thrilling water sport. Whitewater rafting is a summer adventure filled with excitement, teamwork, and the rush of navigating nature’s wildest currents, offering both challenge and exhilaration.",
+    "categoryID": 2,
+    "season": "Summer"
+  },
+  {
+    "ActivityID": 18,
+    "name": "Downhill Longboarding",
+    "overview": "Experience the thrill of high-speed descents on a longboard, mastering sharp turns and slides on steep, winding roads. Downhill longboarding offers a summer rush of adrenaline and control, turning every descent into an exhilarating ride with smooth, fast-paced excitement.",
+    "categoryID": 3,
+    "season": "Summer"
+  }
 ]
 

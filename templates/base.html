@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image/x-icon" href="/static/images/logo.png"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    
    <style>
       body {
@@ -41,15 +42,15 @@
       }
 
       .sidenav a:hover {
-        color: #f1f1f1; /* lighter color on hover */
+        color: #FFFF00; 
       }
 
       .sidenav .closebtn {
-        position: absolute; /* position the button absolutely within the sidebar */
+        position: absolute; 
         top: 0;
         right: 25px;
         font-size: 36px; 
-        margin-left: 50px; /* additional spacing */
+        margin-left: 50px; 
       }
 
       /* Media query for small screens */
@@ -57,6 +58,20 @@
         .sidenav {padding-top: 15px;} /* Reduce top padding */
         .sidenav a {font-size: 18px;} /* Reduce font size */
       }
+
+      .flash-message {
+            padding: 10px;
+            border-radius: 4px;
+            color: #fff;
+            text-align: center;
+        }
+        .flash-message.success {
+            background-color: #28a745;
+        }
+        .flash-message.error {
+            background-color: #dc3545;
+        }
+
     </style>
   </head>
   {% endblock %}
@@ -79,7 +94,17 @@
     </div>
  
     <!-- menu icon -->
-    <span style="font-size:30px;cursor:pointer;position:fixed;z-index:20" onclick="openNav()">&#9776;</span>
+    <span style="font-size:30px;cursor:pointer;position:fixed;z-index:20;color:#FFFF00" onclick="openNav()">&#9776;</span>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        <div id="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
 
     <div id="main">
       {% block body %}{% endblock %}

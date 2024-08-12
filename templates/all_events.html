@@ -2,63 +2,177 @@
 {% block title %}All Events{% endblock %}
 
 {% block body %}
-  <h1>All Events</h1>
+<style>
 
-  <!-- Filter form -->
-  <form id="filter-form">
-    <label for="activity_id">Filter by Activity:</label>
-    <select id="activity_id" name="activity_id">
-      <option value="">Select Activity</option>
-      {% for activity in activities %}
-      <option value="{{ activity.activity_id }}">{{ activity.name }}</option>
-      {% endfor %}
-      </select><br><br>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url('/static/images/2.png') no-repeat center center fixed; 
+  background-size: cover;
+}
 
-      <button type="submit">Filter Events</button>
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  color: #A020F0;
+}
 
-      <button style="font-size:13px"> <i class="fa fa-undo"></i></button>
-      
-      </form>
+#filter-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: rgba(0, 123, 255, 0.6);
+  color: white;
+  border-radius: 5px;
+}
 
-  <!-- Link to event creation form -->
-  <p><a href="{{ url_for('show_event_form') }}">Want to create your own event? Click here!</a></p>
+#filter-form label {
+  margin-right: 10px;
+  font-weight: bold;
+}
 
+#filter-form select, #filter-form button {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+} 
 
-    <!-- Display Events -->
-  <ul id="event-container">
-    {% for event in events %}
-     <li class="event" data-activity="{{ event.activity_id }}">
-      <h2>{{ event.title }}</h2>
-      <p>{{ event.description }}</p>
-      <p>Date: {{ event.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
-      <p>Location: {{ event.location }}</p>
-      <p>Cost: ${{ event.cost }}</p>
+#filter-form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
 
-      <h3>Participants:</h3>
-      <ul>
-        {% for participant in event.event_participants %}
-        <li>{{ participant.user.username }}</li>
-        {% else %}
-        <li>No participants yet.</li>
-        {% endfor %}
-      </ul>
-        
-      {% if user_id == event.user_id %} 
-        <p><strong>This is your event!</strong></p>
-        {% else %}
-        <button onclick="joinEvent('{{ event.event_id }}')">Join</button> 
-      {% endif %}  
-     </li>
-    {% else %}
-     <li>No events found</li>
+#filter-form button:hover {
+  background-color: #0056b3;
+}  
+
+#event-container {
+  list-style-type: none;
+  padding: 0;
+  max-width: 800px;
+  margin: auto;
+}
+
+.event {
+  background-color: rgba(255, 255, 255, 0.9); 
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event h2 {
+  color: #007bff;
+}
+
+.event p {
+  margin: 10px;
+  color: #333;
+}
+
+.event ul {
+  list-style-type: none;
+  padding: 0%;
+  margin: 10px;
+}
+
+.event ul li {
+  background-color: #f2f2f2;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.event button {
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.event button:hover {
+  background-color: #218838;
+}
+
+/* "create your own event" */
+p a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+.fa-undo {
+  font-size: 13px;
+  margin: 5px;
+}
+
+</style>
+
+<h1>All Events</h1>
+
+<form id="filter-form">
+  <label for="activity_id">Filter by Activity:</label>
+  <select id="activity_id" name="activity_id">
+    <option value="">Select Activity</option>
+    {% for activity in activities %}
+    <option value="{{ activity.activity_id }}">{{ activity.name }}</option>
     {% endfor %}
-  </ul>
+  </select><br><br>
+
+  <button type="submit">Filter Events</button>
+  <button style="font-size:13px"><i class="fa fa-undo"></i></button>
+</form>
+
+<p><a href="{{ url_for('show_event_form') }}">Want to create your own event? Click here!</a></p>
+
+<!-- Display Events -->
+<ul id="event-container">
+  {% for event in events %}
+   <li class="event" data-activity="{{ event.activity_id }}">
+    <h2><a href="{{ url_for('show_event', event_id=event.event_id) }}">{{ event.title }}</a></h2>
+    <p>{{ event.description }}</p>
+    <p>Date: {{ event.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
+    <p>Location: {{ event.location }}</p>
+    <p>Cost: ${{ event.cost }}</p>
+
+    <h3>Participants:</h3>
+    <ul>
+      {% for participant in event.event_participants %}
+      <li>{{ participant.user.username }}</li>
+      {% else %}
+      <li>No participants yet.</li>
+      {% endfor %}
+    </ul>
+      
+    {% if user_id == event.user_id %} 
+      <p><strong>This is your event!</strong></p>
+    {% else %}
+      <button onclick="joinEvent('{{ event.event_id }}')">Join</button> 
+    {% endif %}  
+   </li>
+  {% else %}
+   <li>No events found</li>
+  {% endfor %}
+</ul>
 
 {% endblock %}
 
 {% block after_body %}
-
-  <!-- Link to Javascript file -->
   <script src="/static/join_event.js"></script>
   <script src="/static/filter_events.js"></script>
 {% endblock %}

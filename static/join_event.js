@@ -11,7 +11,7 @@ function joinEvent(eventId) {
   .then(response => response.json())
   .then(data => {
     if (data.success) {
-      alert(data.message);  // Use the message from the JSON response
+      alert(data.message);  // use message from the JSON response
     } else {
       alert('Failed to join the event: ' + data.message);
     }

@@ -3,23 +3,95 @@
 {% block title %}{{ activity.name }} - Details{% endblock %}
 
 {% block body %}
-<h1>{{ activity.name }}</h1>
-<p>
-  {{ activity.overview }}
-</p>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 0;
+    margin: 0;
+  }
 
-<h2>Events for {{ activity.name }}</h2>
-{% if events %}
-  <ul>
-    {% for event in events %}
-    <li>
-      <a href="/events/{{ event.event_id }}">{{ event.title }}</a> - {{ event.date_time }}
-    </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No events found for this activity.</p>
-{% endif %}
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
 
+  h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #f1c40f; 
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f1c40f;
+    padding-bottom: 10px;
+  }
+
+  .activity-image {
+    width: 69%;  
+    height: auto; 
+    display: block; 
+    margin: 0 auto; 
+  }
+
+  .overview {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+  }
+
+  li a {
+    text-decoration: none;
+    color: #f1c40f;
+  }
+
+  li a:hover {
+    text-decoration: underline;
+  }
+
+  .no-events {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+  }
+</style>
+
+<div class="container">
+  <img src="{{ activity.imgURL }}" alt="{{ activity.name }}" class="activity-image">
+  
+  <h1>{{ activity.name }}</h1>
+  <p class="overview">{{ activity.overview }}</p>
+
+  <h2>Events for {{ activity.name }}</h2>
+  {% if events %}
+    <ul>
+      {% for event in events %}
+      <li>
+        <a href="/events/{{ event.event_id }}">{{ event.title }}</a> - {{ event.date_time }}
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="no-events">No events found for this activity.</p>
+  {% endif %}
+</div>
 
 {% endblock %}
