@@ -1,10 +1,10 @@
 # ThrillTribe 🌍🏄‍♀️
 
+<img src="https://github.com/user-attachments/assets/f34a6c52-135c-414c-ad9f-e2836a8157a8" alt="ThrillTribe" width="400"/>
+
 ## Overview
 
 ThrillTribe is an interactive web application designed to help users discover, create, and participate in various activities and events around the world. Whether you're looking for your next adventure or a cool place to visit, ThrillTribe has got you covered! 🌟 
-
-![5](https://github.com/user-attachments/assets/f34a6c52-135c-414c-ad9f-e2836a8157a8)
 
 ## Features
 
