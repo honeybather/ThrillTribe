@@ -4,6 +4,10 @@
 
 ThrillTribe is an interactive web application designed to help users discover, create, and participate in various activities and events around the world. Whether you're looking for your next adventure or a cool place to visit, ThrillTribe has got you covered! 🌟 
 
+## Demo
+
+Check out the demo video to see ThrillTribe in action: [Watch the Demo on YouTube](https://www.youtube.com/watch?v=7cF6lmCqVc8)
+
 ## Features
 
 - Discover Events 🏂: Find exciting activities and events happening near you or around the globe.
@@ -15,10 +19,6 @@ ThrillTribe is an interactive web application designed to help users discover, c
 - Backend 🛠️: Flask, SQLAlchemy
 - Frontend 🎨: HTML, CSS, JavaScript
 - Database 🗄️: PostgreSQL
-
-## Demo
-
-Check out the demo video to see ThrillTribe in action: [Watch the Demo on YouTube](https://www.youtube.com/watch?v=7cF6lmCqVc8)
 
 ---
 
