@@ -16,6 +16,10 @@ ThrillTribe is an interactive web application designed to help users discover, c
 - Frontend 🎨: HTML, CSS, JavaScript
 - Database 🗄️: PostgreSQL
 
+## Demo
+
+Check out the demo video to see ThrillTribe in action: [Watch the Demo on YouTube](https://www.youtube.com/watch?v=7cF6lmCqVc8)
+
 ---
 
 ⭐️ Let's make adventure happen!
