@@ -59,12 +59,13 @@ db.session.add_all(activity_in_db)
 db.session.commit()
 
 
-# Generate 10 users; each user will be associated with activities/events
+# generate 10 users; each user will be associated with activities/events
 for n in range(10):
-    email = f"user{n}@test.com"  
+    username = f"user{n}" 
+    email = f"user{n}@test.com"
     password = "test"
 
-    user = crud.create_user(email, password)
+    user = crud.create_user(username, email, password) 
     db.session.add(user)
 
-db.session.commit() 
+db.session.commit()
